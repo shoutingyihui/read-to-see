@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阅见 · V3 分类配置 + 交互示意</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Serif SC","Source Han Serif SC",serif,sans-serif;
+  background:#0f0f11;color:#e4e4e7;min-height:100vh;line-height:1.7;
+}
+.bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 15%, rgba(99,102,241,.035) 0, transparent 60%),
+    radial-gradient(1px 1px at 10% 15%, rgba(99,102,241,.18) 0, transparent),
+    radial-gradient(1px 1px at 30% 40%, rgba(99,102,241,.13) 0, transparent),
+    radial-gradient(1.5px 1.5px at 50% 10%, rgba(99,102,241,.22) 0, transparent),
+    radial-gradient(1px 1px at 70% 25%, rgba(99,102,241,.08) 0, transparent),
+    radial-gradient(1px 1px at 85% 60%, rgba(99,102,241,.13) 0, transparent),
+    radial-gradient(1.5px 1.5px at 20% 70%, rgba(99,102,241,.18) 0, transparent),
+    radial-gradient(1px 1px at 60% 75%, rgba(99,102,241,.08) 0, transparent),
+    radial-gradient(1px 1px at 40% 90%, rgba(99,102,241,.18) 0, transparent);
+}
+
+/* ===== 主体 ===== */
+.layout{display:flex;height:100vh;position:relative;z-index:1}
+
+/* ===== 侧栏 ===== */
+.sidebar{
+  width:230px;min-width:230px;
+  background:rgba(24,24,27,.6);backdrop-filter:blur(20px) saturate(1.2);
+  -webkit-backdrop-filter:blur(20px) saturate(1.2);
+  border-right:1px solid rgba(39,39,42,.4);
+  display:flex;flex-direction:column;
+}
+.sidebar-header{padding:18px 18px 12px;border-bottom:1px solid rgba(39,39,42,.2);flex-shrink:0}
+.sidebar-logo{font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px}
+.sidebar-logo .brand{font-family:"Noto Serif SC","Source Han Serif SC",serif;letter-spacing:2px}
+.sidebar-logo .brand span{color:#818cf8}
+.sidebar-sub{font-size:10.5px;color:rgba(99,102,241,.5);margin-top:1px;letter-spacing:2px}
+
+.filter-section{padding:12px 16px 6px;flex-shrink:0}
+.filter-label{font-size:10px;color:rgba(99,102,241,.4);letter-spacing:1.5px;margin-bottom:6px;text-transform:uppercase}
+.filter-item{
+  display:flex;align-items:center;gap:8px;
+  padding:6px 10px;border-radius:7px;cursor:pointer;
+  color:rgba(161,161,170,.6);font-size:13px;transition:all .12s;margin-bottom:1px;
+}
+.filter-item:hover{background:rgba(255,255,255,.03);color:#e4e4e7}
+.filter-item.active{background:rgba(99,102,241,.08);color:#e4e4e7}
+.filter-item .count{font-size:11px;color:rgba(82,82,91,.5);padding:0 5px;border-radius:3px;margin-left:auto}
+.filter-item.active .count{color:rgba(129,140,248,.5)}
+.filter-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.filter-dot.all{background:rgba(99,102,241,.5)}
+.filter-dot.deep{background:rgba(129,140,248,.6)}
+.filter-dot.news{background:rgba(251,191,36,.5)}
+.filter-dot.auto{background:rgba(167,139,250,.4)}
+
+.nav-section-title{font-size:9.5px;color:rgba(82,82,91,.4);letter-spacing:1.5px;padding:10px 16px 4px;text-transform:uppercase}
+.nav-list{flex:1;overflow-y:auto;padding:2px 16px}
+
+/* ===== 主内容 ===== */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.topbar{
+  padding:12px 24px;
+  background:rgba(15,15,17,.7);backdrop-filter:blur(16px) saturate(1.3);
+  -webkit-backdrop-filter:blur(16px) saturate(1.3);
+  border-bottom:1px solid rgba(39,39,42,.25);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.topbar-left{display:flex;align-items:center;gap:10px}
+.topbar-title{font-size:14px;font-family:"Noto Serif SC","Source Han Serif SC",serif;color:#e4e4e7}
+.topbar-title span{color:#818cf8}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.topbar-btn{
+  padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;
+  background:rgba(99,102,241,.08);color:rgba(129,140,248,.6);border:1px solid rgba(99,102,241,.12);
+  font-family:inherit;transition:all .12s;
+}
+.topbar-btn:hover{background:rgba(99,102,241,.15);color:rgba(165,180,252,.8);border-color:rgba(99,102,241,.2)}
+.topbar-btn.settings{background:rgba(255,255,255,.03);color:rgba(161,161,170,.5);border-color:rgba(39,39,42,.3)}
+.topbar-btn.settings:hover{color:rgba(161,161,170,.8);border-color:rgba(99,102,241,.15)}
+
+.body{flex:1;overflow-y:auto;padding:20px 24px}
+.body::-webkit-scrollbar{width:5px}
+.body::-webkit-scrollbar-track{background:transparent}
+.body::-webkit-scrollbar-thumb{background:rgba(39,39,42,.4);border-radius:4px}
+
+/* ===== 分类配置面板 ===== */
+.config-panel{
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:50;
+  background:rgba(10,10,12,.85);backdrop-filter:blur(8px);
+  flex-direction:column;overflow-y:auto;
+}
+.config-panel.active{display:flex}
+.config-topbar{
+  padding:16px 24px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(39,39,42,.2);flex-shrink:0;
+  background:rgba(15,15,17,.7);backdrop-filter:blur(16px);
+  position:sticky;top:0;z-index:2;
+}
+.config-topbar h2{font-size:16px;font-weight:600;font-family:"Noto Serif SC","Source Han Serif SC",serif}
+.config-topbar h2 span{color:#818cf8}
+.config-topbar .close{
+  padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px;
+  background:rgba(99,102,241,.08);color:rgba(129,140,248,.6);border:1px solid rgba(99,102,241,.12);
+  font-family:inherit;transition:all .12s;
+}
+.config-topbar .close:hover{background:rgba(99,102,241,.15)}
+.config-body{padding:24px;max-width:800px;margin:0 auto;width:100%}
+.config-intro{font-size:13px;color:rgba(113,113,122,.6);margin-bottom:20px;line-height:1.8}
+
+/* 分类项 */
+.config-account{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;border-radius:10px;margin-bottom:4px;
+  background:rgba(24,24,27,.2);backdrop-filter:blur(6px);
+  border:1px solid rgba(39,39,42,.12);
+  transition:all .12s;
+}
+.config-account:hover{border-color:rgba(39,39,42,.25)}
+.config-account .name{font-size:14px;color:rgba(212,212,216,.85);flex:1}
+.config-account .article-count{font-size:11px;color:rgba(82,82,91,.4);margin-left:8px}
+.config-account .type-select{display:flex;gap:4px}
+.config-account .type-select button{
+  padding:4px 10px;border-radius:5px;font-size:11px;cursor:pointer;
+  border:1px solid rgba(39,39,42,.2);background:transparent;
+  color:rgba(113,113,122,.5);font-family:inherit;transition:all .12s;
+}
+.config-account .type-select button:hover{border-color:rgba(99,102,241,.2);color:rgba(161,161,170,.7)}
+.config-account .type-select button.active-deep{
+  background:rgba(99,102,241,.12);color:rgba(129,140,248,.7);
+  border-color:rgba(99,102,241,.2);
+}
+.config-account .type-select button.active-news{
+  background:rgba(251,191,36,.1);color:rgba(251,191,36,.6);
+  border-color:rgba(251,191,36,.15);
+}
+.config-account .type-select button.active-auto{
+  background:rgba(167,139,250,.08);color:rgba(167,139,250,.5);
+  border-color:rgba(167,139,250,.12);
+}
+.config-account .tag{
+  font-size:10px;padding:2px 6px;border-radius:3px;margin-left:8px;
+}
+.config-account .tag.deep{background:rgba(99,102,241,.08);color:rgba(129,140,248,.5)}
+.config-account .tag.news{background:rgba(251,191,36,.08);color:rgba(251,191,36,.5)}
+.config-account .tag.auto{background:rgba(167,139,250,.06);color:rgba(167,139,250,.4)}
+
+.config-divider{font-size:11px;color:rgba(82,82,91,.3);padding:16px 0 8px;letter-spacing:1px;display:flex;align-items:center;gap:10px}
+.config-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(39,39,42,.2),transparent)}
+.config-divider .hint{font-size:10px;color:rgba(82,82,91,.2);font-weight:400;letter-spacing:normal}
+
+/* ===== 文章卡片 ===== */
+.deep-card{
+  padding:16px 18px;border-radius:10px;margin-bottom:8px;cursor:pointer;
+  background:rgba(24,24,27,.25);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(39,39,42,.15);transition:all .2s;
+  display:flex;gap:14px;
+}
+.deep-card:hover{background:rgba(28,28,32,.35);border-color:rgba(99,102,241,.12);transform:translateY(-1px)}
+.deep-card .info{flex:1;min-width:0}
+.deep-card .title{
+  font-family:"Noto Serif SC","Source Han Serif SC",serif;
+  font-size:16px;font-weight:600;color:#e4e4e7;line-height:1.5;letter-spacing:.3px;margin-bottom:6px;
+}
+.deep-card .meta{font-size:12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.deep-card .meta .author{color:rgba(129,140,248,.7)}
+.deep-card .meta .sep{color:rgba(82,82,91,.3)}
+.deep-card .meta .readtime{color:rgba(99,102,241,.5);font-size:11px}
+.deep-card .meta .tag{
+  font-size:10px;padding:1px 5px;border-radius:3px;
+  background:rgba(99,102,241,.06);color:rgba(129,140,248,.5);
+  border:1px solid rgba(99,102,241,.1);
+}
+.deep-card .action{flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.deep-card .action .btn{
+  padding:6px 14px;border-radius:7px;font-size:12px;cursor:pointer;border:none;font-family:inherit;
+  background:rgba(99,102,241,.12);color:rgba(129,140,248,.6);transition:all .12s;
+}
+.deep-card .action .btn:hover{background:rgba(99,102,241,.2);color:rgba(165,180,252,.8)}
+
+/* 快讯卡片 - 日期分组 */
+.news-date-group{margin-bottom:16px}
+.news-date-header{
+  display:flex;align-items:center;gap:8px;
+  padding:6px 0 4px;font-size:13px;
+  color:rgba(161,161,170,.4);font-family:"Noto Serif SC","Source Han Serif SC",serif;letter-spacing:.5px;
+}
+.news-date-header::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(39,39,42,.2),transparent)}
+
+.news-card{
+  display:flex;align-items:flex-start;gap:10px;cursor:pointer;
+  padding:8px 12px;border-radius:8px;margin-bottom:3px;
+  background:rgba(24,24,27,.12);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  border:1px solid rgba(39,39,42,.08);transition:all .12s;
+}
+.news-card:hover{background:rgba(28,28,32,.2);border-color:rgba(251,191,36,.08)}
+.news-card .time{min-width:40px;font-size:11px;color:rgba(82,82,91,.4);flex-shrink:0;padding-top:1px}
+.news-card .info{flex:1;min-width:0}
+.news-card .title{font-size:13.5px;color:rgba(212,212,216,.85);line-height:1.4}
+.news-card .meta{font-size:10.5px;color:rgba(82,82,91,.35);margin-top:1px;display:flex;align-items:center;gap:4px}
+.news-card .meta .author{color:rgba(251,191,36,.4)}
+.news-card .action{flex-shrink:0;opacity:0;transition:opacity .12s;align-self:center}
+.news-card:hover .action{opacity:1}
+.news-card .action a{
+  font-size:11px;color:rgba(99,102,241,.4);text-decoration:none;
+  padding:2px 8px;border-radius:4px;
+  border:1px solid rgba(99,102,241,.08);
+}
+
+/* ===== 阅读页 - 深度（严肃退出） ===== */
+.deep-reader{
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:100;
+  background:#0b0b0d;flex-direction:column;
+}
+.deep-reader.active{display:flex}
+.deep-reader .topbar{
+  padding:12px 24px;
+  background:rgba(11,11,13,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(39,39,42,.15);
+  display:flex;align-items:center;gap:12px;flex-shrink:0;
+}
+.deep-reader .topbar .back-btn{
+  padding:5px 14px;border-radius:6px;cursor:pointer;font-size:13px;
+  background:rgba(255,255,255,.04);color:rgba(113,113,122,.7);border:none;font-family:inherit;
+  transition:all .12s;display:flex;align-items:center;gap:5px;
+}
+.deep-reader .topbar .back-btn:hover{background:rgba(255,255,255,.07);color:#e4e4e7}
+.deep-reader .topbar .rtitle{flex:1;font-size:12px;color:rgba(82,82,91,.4);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.deep-reader .progress{height:2px;background:rgba(26,26,30,.4);flex-shrink:0}
+.deep-reader .progress .fill{height:100%;width:0;background:linear-gradient(90deg,rgba(99,102,241,.4),rgba(129,140,248,.5),rgba(167,139,250,.4))}
+.deep-reader .body{flex:1;overflow-y:auto;padding:48px 32px 60px}
+.deep-reader .content{max-width:660px;margin:0 auto}
+.deep-reader .content h1{font-family:"Noto Serif SC","Source Han Serif SC",serif;font-size:1.5em;font-weight:700;line-height:1.4;color:#e4e4e7;margin-bottom:10px}
+.deep-reader .content .meta{font-size:13px;color:rgba(82,82,91,.5);margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid rgba(39,39,42,.15)}
+.deep-reader .content .meta em{color:rgba(129,140,248,.6);font-style:normal}
+.deep-reader .content p{font-size:1em;line-height:2;color:rgba(212,212,216,.85);margin-bottom:1.2em;letter-spacing:.2px}
+
+/* ===== 阅读页 - 快讯（点背景退出） ===== */
+.news-reader{
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:101;
+  background:rgba(10,10,12,.95);flex-direction:column;
+  cursor:pointer; /* ← 整个背景可点击 */
+}
+.news-reader.active{display:flex}
+.news-reader .inner{
+  cursor:default; /* ← 内容区域不透传点击 */
+  display:flex;flex-direction:column;height:100%;
+}
+.news-reader .topbar{
+  padding:10px 20px;
+  background:rgba(10,10,12,.85);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(39,39,42,.12);
+  display:flex;align-items:center;gap:10px;flex-shrink:0;
+}
+.news-reader .topbar .label{
+  font-size:10px;padding:2px 6px;border-radius:3px;
+  background:rgba(251,191,36,.06);color:rgba(251,191,36,.5);
+  border:1px solid rgba(251,191,36,.1);
+}
+.news-reader .body{flex:1;overflow-y:auto;padding:24px 20px}
+.news-reader .ncontent{max-width:560px;margin:0 auto}
+.news-reader .ncontent h2{font-size:16px;font-weight:600;color:#e4e4e7;line-height:1.5;margin-bottom:5px}
+.news-reader .ncontent .nmeta{font-size:12px;color:rgba(82,82,91,.45);margin-bottom:14px}
+.news-reader .ncontent p{font-size:14px;line-height:1.8;color:rgba(212,212,216,.8);margin-bottom:.9em}
+.news-reader .clue{text-align:center;padding:10px;font-size:11px;color:rgba(82,82,91,.25);letter-spacing:1px;flex-shrink:0}
+.news-reader .clue span{padding:3px 10px;border-radius:4px;background:rgba(255,255,255,.02)}
+.news-reader .clue span:hover{color:rgba(113,113,122,.4)}
+
+/* ===== 响应式 ===== */
+@media(max-width:768px){.sidebar{width:50px;min-width:50px}.sidebar .filter-label,.sidebar .filter-item span,.sidebar .sidebar-sub,.sidebar .sidebar-logo .brand,.nav-section-title,.nav-list{display:none}.sidebar-logo{justify-content:center}}
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<div class="layout">
+<!-- ===== 侧栏 ===== -->
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"><path d="M12 3a9 9 0 1 0 9 9c-4 0-7-3-7-7 0-1 .2-2 .6-3A9 9 0 0 1 12 3z"/></svg>
+      <span class="brand">阅见<span>.</span></span>
+    </div>
+    <div class="sidebar-sub">月下观书 · 星河入卷</div>
+  </div>
+  <div class="filter-section">
+    <div class="filter-label">filter</div>
+    <div class="filter-item active"><span class="filter-dot all"></span>全部</div>
+    <div class="filter-item"><span class="filter-dot deep"></span>深度</div>
+    <div class="filter-item"><span class="filter-dot news"></span>快讯</div>
+  </div>
+</div>
+
+<!-- ===== 主内容 ===== -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="topbar-title">全部 <span>·</span> 10 个号</span>
+    </div>
+    <div class="topbar-right">
+      <button class="topbar-btn settings" onclick="toggleConfig()">⚙ 分类配置</button>
+    </div>
+  </div>
+
+  <div class="body">
+    <p style="font-size:12px;color:rgba(82,82,91,.3);margin-bottom:16px;letter-spacing:.5px">深度 · 2 篇 ｜ 快讯 · 4 篇（今日 3 条）</p>
+
+    <!-- 深度 -->
+    <div class="deep-card" onclick="openDeep()">
+      <div class="info">
+        <div class="title">落日间游戏研究营地(GSC)在北大：当电子游戏进入学术殿堂</div>
+        <div class="meta">
+          <span class="author">落日间</span>
+          <span class="sep">·</span>
+          <span>2026-05-12</span>
+          <span class="sep">·</span>
+          <span class="readtime">约 12 分钟</span>
+          <span class="tag">深度</span>
+        </div>
+      </div>
+      <div class="action">
+        <button class="btn">阅读</button>
+      </div>
+    </div>
+
+    <div class="deep-card" onclick="openDeep()">
+      <div class="info">
+        <div class="title">卡兹克写作风格Skill：构建能自我进化的文章写作知识库</div>
+        <div class="meta">
+          <span class="author">数字生命卡兹克</span>
+          <span class="sep">·</span>
+          <span>2026-05-10</span>
+          <span class="sep">·</span>
+          <span class="readtime">约 8 分钟</span>
+          <span class="tag">深度</span>
+        </div>
+      </div>
+      <div class="action">
+        <button class="btn">阅读</button>
+      </div>
+    </div>
+
+    <!-- 快讯 - 日期分组 -->
+    <div class="news-date-group">
+      <div class="news-date-header">今天 · 5月16日</div>
+      <div class="news-card" onclick="openNews()">
+        <span class="time">09:32</span>
+        <div class="info">
+          <div class="title">半月谈：乡村教育数字化转型的"最后一公里"怎么走？</div>
+          <div class="meta"><span class="author">半月谈</span><span>· 3分钟</span></div>
+        </div>
+        <div class="action"><a href="#" onclick="event.stopPropagation();openNews()">读</a></div>
+      </div>
+      <div class="news-card" onclick="openNews()">
+        <span class="time">08:15</span>
+        <div class="info">
+          <div class="title">央视财经：早间市场快报——三大指数开盘微涨</div>
+          <div class="meta"><span class="author">央视财经</span><span>· 1分钟</span></div>
+        </div>
+        <div class="action"><a href="#" onclick="event.stopPropagation();openNews()">读</a></div>
+      </div>
+      <div class="news-card" onclick="openNews()">
+        <span class="time">07:00</span>
+        <div class="info">
+          <div class="title">人民日报：今日要闻简报</div>
+          <div class="meta"><span class="author">人民日报</span><span>· 2分钟</span></div>
+        </div>
+        <div class="action"><a href="#" onclick="event.stopPropagation();openNews()">读</a></div>
+      </div>
+    </div>
+
+    <div class="news-date-group">
+      <div class="news-date-header">昨天 · 5月15日</div>
+      <div class="news-card" onclick="openNews()">
+        <span class="time">14:15</span>
+        <div class="info">
+          <div class="title">央视财经评论丨中国经济的"春意"和"暖意"</div>
+          <div class="meta"><span class="author">央视财经</span><span>· 4分钟</span></div>
+        </div>
+        <div class="action"><a href="#" onclick="event.stopPropagation();openNews()">读</a></div>
+      </div>
+    </div>
+
+    <div style="text-align:center;padding:16px 0;font-size:11px;color:rgba(82,82,91,.25);letter-spacing:1px">—— 共 6 篇 ——</div>
+  </div>
+</div>
+</div>
+
+<!-- ===== 深度阅读页（严肃退出） ===== -->
+<div class="deep-reader" id="deepReader">
+  <div class="topbar">
+    <button class="back-btn" onclick="closeDeep()">← 返回</button>
+    <span class="rtitle">落日间游戏研究营地(GSC)在北大</span>
+  </div>
+  <div class="progress"><div class="fill" style="width:32%"></div></div>
+  <div class="body">
+    <div class="content">
+      <h1>落日间游戏研究营地(GSC)在北大：当电子游戏进入学术殿堂</h1>
+      <div class="meta"><em>落日间</em> · 2026-05-12 · 约 12 分钟阅读</div>
+      <p>2025年5月，北京大学迎来了一场特殊的学术活动——"落日间游戏研究营地"正式入驻北大课堂。这不是简单的游戏体验，而是一次严肃的学术尝试：将电子游戏作为文化文本、作为艺术媒介、作为社会镜像来研究。</p>
+      <p>落日间团队带来了他们过去五年积累的方法论——"游戏批评"框架。这个框架脱胎于文学批评和电影批评的传统，但针对电子游戏的交互性特征做了根本性的改造。</p>
+      <p style="color:rgba(39,39,42,.5);font-style:italic;text-align:center;padding:30px 0">……实际内容继续……</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 快讯阅读页（点背景退出） ===== -->
+<div class="news-reader" id="newsReader" onclick="closeNews(event)">
+  <div class="inner" onclick="event.stopPropagation()">
+    <div class="topbar">
+      <span class="label">快讯</span>
+      <span style="color:rgba(82,82,91,.4);font-size:12px">半月谈</span>
+      <span style="margin-left:auto;font-size:10px;color:rgba(82,82,91,.2)">← 点击空白退出</span>
+    </div>
+    <div class="body">
+      <div class="ncontent">
+        <h2>乡村教育数字化转型的"最后一公里"怎么走？</h2>
+        <div class="nmeta">半月谈 · 2026-05-16 09:32</div>
+        <p>近年来，随着"互联网+教育"的深入推进，乡村学校的硬件设施有了显著改善。但设备的"最后一公里"问题仍然突出——有了平板电脑，没有适配的教学资源；通了网络，老师不会用数字化工具备课。</p>
+        <p>半月谈记者在湖南、贵州、甘肃三省的调研发现，乡村教育数字化转型的瓶颈已经从"有没有"转向"会不会用"。</p>
+        <p>专家建议，下一步的重点应该从硬件投入转向教师培训。</p>
+      </div>
+    </div>
+    <div class="clue"><span>点击空白处关闭 · 返回键也可关闭</span></div>
+  </div>
+</div>
+
+<!-- ===== 分类配置面板 ===== -->
+<div class="config-panel" id="configPanel">
+  <div class="config-topbar">
+    <h2>分类配置 <span>·</span> 让每个号各归其位</h2>
+    <button class="close" onclick="toggleConfig()">✓ 完成</button>
+  </div>
+  <div class="config-body">
+
+    <div class="config-intro">
+      你知道每个公众号的调性，你来决定它们该进"深度"还是"快讯"。<br>
+      <span style="color:rgba(82,82,91,.35)">拿不准的留"自动"——我来按文章长度帮你分。</span>
+    </div>
+
+    <div class="config-divider">深度号 <span class="hint">· 你的判断最准</span></div>
+
+    <div class="config-account">
+      <span class="name">落日间</span>
+      <span class="article-count">18 篇</span>
+      <div class="type-select">
+        <button class="active-deep">深度</button>
+        <button>快讯</button>
+        <button>自动</button>
+      </div>
+    </div>
+
+    <div class="config-account">
+      <span class="name">数字生命卡兹克</span>
+      <span class="article-count">2 篇</span>
+      <div class="type-select">
+        <button class="active-deep">深度</button>
+        <button>快讯</button>
+        <button>自动</button>
+      </div>
+    </div>
+
+    <div class="config-account">
+      <span class="name">群学书院</span>
+      <span class="article-count">10 篇</span>
+      <div class="type-select">
+        <button class="active-deep">深度</button>
+        <button>快讯</button>
+        <button>自动</button>
+      </div>
+    </div>
+
+    <div class="config-account">
+      <span class="name">哲学研究</span>
+      <span class="article-count">3 篇</span>
+      <div class="type-select">
+        <button class="active-deep">深度</button>
+        <button>快讯</button>
+        <button>自动</button>
+      </div>
+    </div>
+
+    <div class="config-account">
+      <span class="name">黑神话</span>
+      <span class="article-count">2 篇</span>
+      <div class="type-select">
+        <button class="active-deep">深度</button>
+        <button>快讯</button>
+        <button>自动</button>
+      </div>
+    </div>
+
+    <div class="config-divider">快讯号</div>
+
+    <div class="config-account">
+      <span class="name">半月谈</span>
+      <span class="article-count">15 篇</span>
+      <div class="type-select">
+        <button>深度</button>
+        <button class="active-news">快讯</button>
+        <button>自动</button>
+      </div>
+    </div>
+
+    <div class="config-account">
+      <span class="name">央视财经</span>
+      <span class="article-count">14 篇</span>
+      <div class="type-select">
+        <button>深度</button>
+        <button class="active-news">快讯</button>
+        <button>自动</button>
+      </div>
+    </div>
+
+    <div class="config-account">
+      <span class="name">光明日报</span>
+      <span class="article-count">3 篇</span>
+      <div class="type-select">
+        <button>深度</button>
+        <button class="active-news">快讯</button>
+        <button>自动</button>
+      </div>
+    </div>
+
+    <div class="config-account">
+      <span class="name">中国科学报</span>
+      <span class="article-count">3 篇</span>
+      <div class="type-select">
+        <button>深度</button>
+        <button class="active-news">快讯</button>
+        <button>自动</button>
+      </div>
+    </div>
+
+    <div class="config-account">
+      <span class="name">人民日报</span>
+      <span class="article-count">1 篇</span>
+      <div class="type-select">
+        <button>深度</button>
+        <button class="active-news">快讯</button>
+        <button>自动</button>
+      </div>
+    </div>
+
+    <div class="config-divider">混合号 · 我来自动判断 <span class="hint">(按字数 + 内容特征)</span></div>
+
+    <div class="config-account" style="opacity:.7">
+      <span class="name">DeepSeek</span>
+      <span class="article-count">15 篇</span>
+      <div class="type-select">
+        <button>深度</button>
+        <button>快讯</button>
+        <button class="active-auto">自动</button>
+      </div>
+    </div>
+
+    <div class="config-account" style="opacity:.7">
+      <span class="name">武汉大学</span>
+      <span class="article-count">8 篇</span>
+      <div class="type-select">
+        <button>深度</button>
+        <button>快讯</button>
+        <button class="active-auto">自动</button>
+      </div>
+    </div>
+
+    <div class="config-account" style="opacity:.7">
+      <span class="name">贵州大学</span>
+      <span class="article-count">12 篇</span>
+      <div class="type-select">
+        <button>深度</button>
+        <button>快讯</button>
+        <button class="active-auto">自动</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function openDeep() { document.getElementById('deepReader').classList.add('active'); }
+function closeDeep() { document.getElementById('deepReader').classList.remove('active'); }
+function openNews() { document.getElementById('newsReader').classList.add('active'); }
+function closeNews(e) {
+  // 点背景（overlay 本身）才关闭
+  document.getElementById('newsReader').classList.remove('active');
+}
+function toggleConfig() {
+  document.getElementById('configPanel').classList.toggle('active');
+}
+// 点配置面板也要关
+</script>
+</body>
+</html>

@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阅见 · 月下观书</title>
+<style>
+:root {
+  --bg-page: #0f0f11;
+  --bg-glass: rgba(24,24,27,.55);
+  --bg-glass-hover: rgba(28,28,32,.65);
+  --border-glass: rgba(39,39,42,.3);
+  --border-glass-hover: rgba(99,102,241,.15);
+  --text-primary: #f0f0f4;
+  --text-secondary: #c8c8d0;
+  --text-muted: rgba(130,130,140,.55);
+  --text-dim: rgba(82,82,91,.4);
+  --accent: #818cf8;
+  --accent-bg: rgba(99,102,241,.12);
+  --gold: #fbbf24;
+  --gold-dim: rgba(251,191,36,.5);
+  --radius-sm: 7px;
+  --radius-md: 10px;
+  --font-serif: "Noto Serif SC","Source Han Serif SC",serif;
+  --font-sans: -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px;-webkit-font-smoothing:antialiased}
+body{
+  font-family:var(--font-sans);
+  background:var(--bg-page);color:var(--text-primary);line-height:1.7;
+  min-height:100vh;overflow:hidden;
+}
+.stardust{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 15%, rgba(99,102,241,.03) 0, transparent 60%),
+    radial-gradient(1px 1px at 10% 15%, rgba(99,102,241,.18) 0, transparent),
+    radial-gradient(1px 1px at 30% 40%, rgba(99,102,241,.13) 0, transparent),
+    radial-gradient(1.5px 1.5px at 50% 10%, rgba(99,102,241,.22) 0, transparent),
+    radial-gradient(1px 1px at 70% 25%, rgba(99,102,241,.08) 0, transparent),
+    radial-gradient(1px 1px at 85% 60%, rgba(99,102,241,.13) 0, transparent),
+    radial-gradient(1.5px 1.5px at 20% 70%, rgba(99,102,241,.18) 0, transparent),
+    radial-gradient(1px 1px at 60% 75%, rgba(99,102,241,.08) 0, transparent),
+    radial-gradient(1px 1px at 40% 90%, rgba(99,102,241,.18) 0, transparent);
+}
+.layout{display:flex;height:100vh;overflow:hidden;position:relative;z-index:1}
+
+/* ===== Sidebar (increased font sizes) ===== */
+.sidebar{
+  width:240px;min-width:240px;display:flex;flex-direction:column;
+  background:var(--bg-glass);backdrop-filter:blur(20px) saturate(1.2);
+  -webkit-backdrop-filter:blur(20px) saturate(1.2);
+  border-right:1px solid var(--border-glass);
+}
+.sidebar-header{padding:20px 20px 14px;border-bottom:1px solid rgba(39,39,42,.2);flex-shrink:0}
+.sidebar-logo{font-size:19px;font-weight:700;display:flex;align-items:center;gap:8px;color:var(--text-primary)}
+.sidebar-logo .brand{font-family:var(--font-serif);letter-spacing:2px}
+.sidebar-logo .brand span{color:var(--accent)}
+.sidebar-sub{font-size:11.5px;color:rgba(99,102,241,.5);margin-top:2px;letter-spacing:2px}
+.filter-section{padding:14px 18px 8px;flex-shrink:0}
+.filter-label{font-size:11px;color:rgba(99,102,241,.4);letter-spacing:1.5px;margin-bottom:8px;text-transform:uppercase}
+.filter-item{
+  display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:var(--radius-sm);
+  cursor:pointer;color:var(--text-muted);font-size:14px;transition:all .12s;margin-bottom:2px;
+}
+.filter-item:hover{background:rgba(255,255,255,.03);color:var(--text-secondary)}
+.filter-item.active{background:var(--accent-bg);color:var(--text-primary)}
+.filter-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.filter-dot.all{background:var(--accent)}
+.filter-dot.deep{background:rgba(129,140,248,.6)}
+.filter-dot.news{background:var(--gold-dim)}
+.sidebar-accounts{flex:1;overflow-y:auto;padding:4px 18px}
+.sidebar-accounts::-webkit-scrollbar{width:4px}
+.sidebar-accounts::-webkit-scrollbar-track{background:transparent}
+.sidebar-accounts::-webkit-scrollbar-thumb{background:rgba(39,39,42,.3);border-radius:4px}
+
+/* ===== Main ===== */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.topbar{
+  padding:12px 24px;
+  background:rgba(15,15,17,.7);backdrop-filter:blur(16px) saturate(1.3);
+  -webkit-backdrop-filter:blur(16px) saturate(1.3);
+  border-bottom:1px solid var(--border-glass);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.topbar-left{display:flex;align-items:center;gap:10px}
+.topbar-title{font-size:15px;font-family:var(--font-serif);color:var(--text-primary)}
+.topbar-title span{color:var(--accent)}
+.topbar-btn{
+  padding:5px 12px;border-radius:var(--radius-sm);font-size:11px;cursor:pointer;
+  background:rgba(255,255,255,.03);color:var(--text-muted);border:1px solid var(--border-glass);
+  font-family:inherit;transition:all .12s;
+}
+.topbar-btn:hover{color:var(--text-secondary);border-color:rgba(99,102,241,.15)}
+
+/* ===== Split content panels ===== */
+.content-split{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0}
+
+/* Longform panel - 2/3 */
+.longform-panel{flex:2;overflow-y:auto;padding:16px 24px 8px;min-height:0}
+.longform-panel::-webkit-scrollbar{width:5px}
+.longform-panel::-webkit-scrollbar-track{background:transparent}
+.longform-panel::-webkit-scrollbar-thumb{background:rgba(39,39,42,.3);border-radius:4px}
+.longform-panel::-webkit-scrollbar-thumb:hover{background:rgba(39,39,42,.5)}
+
+/* News panel - 1/3 (with top border as visual separator) */
+.news-panel{
+  flex:1;overflow-y:auto;padding:8px 24px 16px;
+  border-top:1px solid var(--border-glass);
+  background:rgba(15,15,17,.3);
+}
+.news-panel::-webkit-scrollbar{width:5px}
+.news-panel::-webkit-scrollbar-track{background:transparent}
+.news-panel::-webkit-scrollbar-thumb{background:rgba(39,39,42,.25);border-radius:4px}
+.news-panel::-webkit-scrollbar-thumb:hover{background:rgba(39,39,42,.4)}
+
+.panel-header{
+  font-size:11px;letter-spacing:1.5px;color:var(--text-dim);
+  padding:4px 0 8px;display:flex;align-items:center;gap:8px;
+}
+.panel-header::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(39,39,42,.2),transparent)}
+
+/* ===== Longform Card ===== */
+.long-card{
+  display:flex;gap:14px;padding:14px 16px;margin-bottom:6px;cursor:pointer;
+  border-radius:var(--radius-md);
+  background:var(--bg-glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid var(--border-glass);transition:all .2s;
+}
+.long-card:hover{background:var(--bg-glass-hover);border-color:var(--border-glass-hover)}
+.long-card .info{flex:1;min-width:0}
+.long-card .title{
+  font-family:var(--font-serif);font-size:15px;font-weight:600;
+  color:var(--text-primary);line-height:1.5;letter-spacing:.3px;margin-bottom:4px;
+}
+.long-card .meta{font-size:12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;color:var(--text-muted)}
+.long-card .meta .author{color:var(--accent)}
+.long-card .meta .readtime{color:rgba(99,102,241,.5);font-size:11px}
+.long-card .summary{
+  font-size:12.5px;color:var(--text-muted);margin-top:6px;line-height:1.6;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.long-card .action{flex-shrink:0;display:flex;align-items:center}
+.long-card .action .btn{
+  padding:5px 12px;border-radius:var(--radius-sm);font-size:11.5px;
+  cursor:pointer;border:none;font-family:inherit;
+  background:var(--accent-bg);color:var(--accent);transition:all .12s;
+}
+.long-card .action .btn:hover{background:rgba(99,102,241,.2);color:#a5b4fc}
+
+/* ===== News Card (more compact for 1/3 panel) ===== */
+.news-card{
+  display:flex;align-items:flex-start;gap:8px;cursor:pointer;
+  padding:6px 10px;border-radius:var(--radius-sm);margin-bottom:2px;
+  background:rgba(24,24,27,.08);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  border:1px solid rgba(39,39,42,.06);transition:all .12s;
+}
+.news-card:hover{background:rgba(28,28,32,.15);border-color:rgba(251,191,36,.06)}
+.news-card .time{
+  min-width:38px;font-size:10.5px;color:var(--text-dim);
+  flex-shrink:0;padding-top:1px;
+}
+.news-card .info{flex:1;min-width:0}
+.news-card .title{font-size:13px;color:var(--text-secondary);line-height:1.4}
+.news-card .meta{font-size:10px;color:var(--text-dim);margin-top:1px}
+.news-card .meta .author{color:var(--gold-dim)}
+
+/* ===== Empty state ===== */
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;color:var(--text-dim)}
+.empty-state h3{font-size:14px;color:var(--text-muted);margin-top:10px;font-weight:400}
+.empty-state p{font-size:12px;color:var(--text-dim);margin-top:4px}
+
+/* ===== Loading ===== */
+.loading-screen{display:flex;align-items:center;justify-content:center;height:60vh;flex-direction:column;gap:16px}
+.moon-spinner{position:relative;width:32px;height:32px}
+.moon-spinner::before{content:'';position:absolute;width:32px;height:32px;border:2px solid var(--border-glass);border-radius:50%;animation:moon-orbit 2s ease-in-out infinite}
+.moon-spinner::after{content:'';position:absolute;top:-3px;left:5px;width:20px;height:20px;background:var(--bg-page);border-radius:50%;animation:moon-phase 2s ease-in-out infinite}
+@keyframes moon-orbit{0%,100%{transform:rotate(0deg)}50%{transform:rotate(180deg)}}
+@keyframes moon-phase{0%,100%{transform:translateX(0)}50%{transform:translateX(-6px)}}
+.loading-screen p{color:var(--text-muted);font-size:13px;letter-spacing:1px}
+
+/* ===== Deep Reader ===== */
+.deep-reader{
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:100;
+  background:#0b0b0d;flex-direction:column;
+}
+.deep-reader.active{display:flex}
+.deep-reader .topbar{
+  padding:12px 24px;
+  background:rgba(11,11,13,.85);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(39,39,42,.12);
+  display:flex;align-items:center;gap:12px;flex-shrink:0;
+}
+.deep-reader .topbar .back-btn{
+  padding:5px 14px;border-radius:var(--radius-sm);cursor:pointer;font-size:13px;
+  background:rgba(255,255,255,.04);color:var(--text-muted);border:none;font-family:inherit;
+  display:flex;align-items:center;gap:5px;transition:all .12s;
+}
+.deep-reader .topbar .back-btn:hover{background:rgba(255,255,255,.07);color:var(--text-primary)}
+.deep-reader .topbar .rtitle{flex:1;font-size:12px;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.deep-reader .progress{height:2px;background:rgba(26,26,30,.4);flex-shrink:0}
+.deep-reader .progress .fill{height:100%;width:0;background:linear-gradient(90deg,rgba(99,102,241,.4),rgba(129,140,248,.5));transition:width .05s linear}
+.deep-reader .body{flex:1;overflow-y:auto;padding:48px 32px 60px}
+.deep-reader .body::-webkit-scrollbar{width:5px}
+.deep-reader .body::-webkit-scrollbar-track{background:transparent}
+.deep-reader .body::-webkit-scrollbar-thumb{background:rgba(39,39,42,.3);border-radius:4px}
+.deep-reader .content{max-width:660px;margin:0 auto}
+.deep-reader .content h1{font-family:var(--font-serif);font-size:1.5em;font-weight:700;line-height:1.4;color:var(--text-primary);margin-bottom:10px}
+.deep-reader .content .meta{font-size:13px;color:var(--text-dim);margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid rgba(39,39,42,.12)}
+.deep-reader .content .meta em{color:var(--accent);font-style:normal}
+.deep-reader .content p{font-size:1em;line-height:2;color:var(--text-secondary);margin-bottom:1.2em;letter-spacing:.2px}
+
+/* ===== News Reader ===== */
+.news-reader{
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:101;
+  background:rgba(10,10,12,.96);flex-direction:column;
+  cursor:pointer;
+}
+.news-reader.active{display:flex}
+.news-reader .inner{cursor:default;display:flex;flex-direction:column;height:100%}
+.news-reader .topbar{
+  padding:10px 20px;
+  background:rgba(10,10,12,.85);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(39,39,42,.1);
+  display:flex;align-items:center;gap:10px;flex-shrink:0;
+}
+.news-reader .topbar .back-btn{
+  padding:3px 10px;border-radius:var(--radius-sm);cursor:pointer;font-size:12px;
+  background:rgba(255,255,255,.03);color:var(--text-muted);border:none;font-family:inherit;
+}
+.news-reader .topbar .back-btn:hover{background:rgba(255,255,255,.06);color:var(--text-primary)}
+.news-reader .topbar .label{
+  font-size:10px;padding:2px 6px;border-radius:3px;
+  background:rgba(251,191,36,.06);color:var(--gold-dim);
+  border:1px solid rgba(251,191,36,.1);
+}
+.news-reader .body{flex:1;overflow-y:auto;padding:24px 20px}
+.news-reader .ncontent{max-width:560px;margin:0 auto}
+.news-reader .ncontent h2{font-size:16px;font-weight:600;color:var(--text-primary);line-height:1.5;margin-bottom:5px}
+.news-reader .ncontent .nmeta{font-size:12px;color:var(--text-dim);margin-bottom:14px}
+.news-reader .ncontent p{font-size:14px;line-height:1.8;color:var(--text-secondary);margin-bottom:.9em}
+.news-reader .footer{border-top:1px solid rgba(39,39,42,.08);padding:10px 20px;display:flex;gap:8px;flex-shrink:0;justify-content:center}
+.news-reader .footer .hint{font-size:11px;color:var(--text-dim);padding:3px 12px;border-radius:4px;background:rgba(255,255,255,.02)}
+
+/* ===== Config Panel ===== */
+.config-overlay{
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;
+  background:rgba(10,10,12,.85);backdrop-filter:blur(8px);
+  flex-direction:column;overflow-y:auto;
+}
+.config-overlay.active{display:flex}
+.config-topbar{
+  padding:16px 24px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border-glass);flex-shrink:0;
+  background:rgba(15,15,17,.7);backdrop-filter:blur(16px);
+  position:sticky;top:0;z-index:2;
+}
+.config-topbar h2{font-size:16px;font-weight:600;font-family:var(--font-serif)}
+.config-topbar h2 span{color:var(--accent)}
+.config-topbar .close-btn{
+  padding:5px 12px;border-radius:var(--radius-sm);cursor:pointer;font-size:12px;
+  background:var(--accent-bg);color:var(--accent);border:1px solid rgba(99,102,241,.12);
+  font-family:inherit;transition:all .12s;
+}
+.config-topbar .close-btn:hover{background:rgba(99,102,241,.2)}
+.config-body{padding:24px;max-width:800px;margin:0 auto;width:100%}
+.config-intro{font-size:13px;color:var(--text-muted);margin-bottom:20px;line-height:1.8}
+.config-intro em{color:var(--accent);font-style:normal}
+.config-account{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;border-radius:var(--radius-md);margin-bottom:4px;
+  background:var(--bg-glass);backdrop-filter:blur(6px);
+  border:1px solid var(--border-glass);transition:all .12s;
+}
+.config-account:hover{border-color:rgba(39,39,42,.25)}
+.config-account .name{font-size:14px;color:var(--text-secondary);flex:1}
+.config-account .count{font-size:11px;color:var(--text-dim);margin-left:8px}
+.config-account .type-select{display:flex;gap:4px}
+.config-account .type-select button{
+  padding:4px 10px;border-radius:5px;font-size:11px;cursor:pointer;
+  border:1px solid rgba(39,39,42,.2);background:transparent;
+  color:var(--text-muted);font-family:inherit;transition:all .12s;
+}
+.config-account .type-select button:hover{border-color:rgba(99,102,241,.2);color:var(--text-secondary)}
+.config-account .type-select button.long-active{background:var(--accent-bg);color:var(--accent);border-color:rgba(99,102,241,.2)}
+.config-account .type-select button.news-active{background:rgba(251,191,36,.1);color:var(--gold-dim);border-color:rgba(251,191,36,.15)}
+.config-account .type-select button.auto-active{background:rgba(167,139,250,.08);color:rgba(167,139,250,.5);border-color:rgba(167,139,250,.12)}
+.config-section{font-size:11px;color:var(--text-dim);padding:12px 0 6px;letter-spacing:1px;display:flex;align-items:center;gap:10px}
+.config-section::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(39,39,42,.2),transparent)}
+.config-section .hint{font-size:10px;font-weight:400;letter-spacing:normal;color:rgba(82,82,91,.25)}
+
+/* ===== Responsive ===== */
+@media(max-width:768px){
+  .sidebar{width:200px;min-width:200px}
+  .deep-reader .body{padding:28px 20px 40px}
+  .longform-panel{padding:12px 16px 4px}
+  .news-panel{padding:4px 16px 12px}
+}
+@media(max-width:600px){
+  .sidebar{width:50px;min-width:50px}
+  .sidebar .filter-label,.sidebar .filter-item span,.sidebar .sidebar-sub,.sidebar .sidebar-logo .brand{display:none}
+  .sidebar-logo{justify-content:center;padding:16px 0}
+  .sidebar-accounts{display:none}
+  .topbar{padding:10px 16px}
+  .longform-panel{padding:10px 12px 4px}
+  .news-panel{padding:4px 12px 10px}
+  .long-card{padding:10px 12px}
+}
+</style>
+</head>
+<body>
+
+<div class="stardust"></div>
+
+<div class="layout">
+
+<!-- ===== Sidebar ===== -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"><path d="M12 3a9 9 0 1 0 9 9c-4 0-7-3-7-7 0-1 .2-2 .6-3A9 9 0 0 1 12 3z"/></svg>
+      <span class="brand">阅见<span>.</span></span>
+    </div>
+    <div class="sidebar-sub">月下观书 · 星河入卷</div>
+  </div>
+  <div class="filter-section">
+    <div class="filter-label">分类</div>
+    <div class="filter-item active" data-filter="all"><span class="filter-dot all"></span><span>全部</span></div>
+    <div class="filter-item" data-filter="longform"><span class="filter-dot deep"></span><span>深度</span></div>
+    <div class="filter-item" data-filter="news"><span class="filter-dot news"></span><span>快讯</span></div>
+  </div>
+  <div class="filter-label" style="padding:8px 18px 2px;font-size:10.5px">公众号</div>
+  <div class="sidebar-accounts" id="sidebarAccounts"></div>
+</aside>
+
+<!-- ===== Main ===== -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="topbar-title" id="viewTitle">全部</span>
+    </div>
+    <button class="topbar-btn" onclick="toggleConfig()">⚙ 分类</button>
+  </div>
+
+  <div class="content-split" id="contentSplit">
+    <!-- Longform panel (top 2/3) -->
+    <div class="longform-panel" id="longformPanel">
+      <div class="panel-header">深 度</div>
+      <div id="longformContainer"></div>
+    </div>
+    <!-- News panel (bottom 1/3) -->
+    <div class="news-panel" id="newsPanel">
+      <div class="panel-header">快 讯</div>
+      <div id="newsContainer"></div>
+    </div>
+  </div>
+</main>
+</div>
+
+<!-- ===== Deep Reader ===== -->
+<div class="deep-reader" id="deepReader">
+  <div class="topbar">
+    <button class="back-btn" id="deepBack">← 返回</button>
+    <span class="rtitle" id="deepTitle"></span>
+  </div>
+  <div class="progress"><div class="fill" id="deepProgressFill"></div></div>
+  <div class="body" id="deepBody">
+    <div class="content">
+      <h1 id="deepH1"></h1>
+      <div class="meta" id="deepMeta"></div>
+      <div id="deepText"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== News Reader ===== -->
+<div class="news-reader" id="newsReader" onclick="closeNewsReader(event)">
+  <div class="inner" onclick="event.stopPropagation()">
+    <div class="topbar">
+      <button class="back-btn" onclick="hideNewsReader()">← 返回</button>
+      <span class="label">快讯</span>
+      <span id="newsSource" style="font-size:12px;color:var(--text-dim)"></span>
+      <span style="margin-left:auto;font-size:10px;color:var(--text-dim)">点空白处关闭</span>
+    </div>
+    <div class="body">
+      <div class="ncontent">
+        <h2 id="newsTitle"></h2>
+        <div class="nmeta" id="newsMeta"></div>
+        <div id="newsText"></div>
+      </div>
+    </div>
+    <div class="footer"><span class="hint">点击空白处关闭</span></div>
+  </div>
+</div>
+
+<!-- ===== Config Panel ===== -->
+<div class="config-overlay" id="configPanel">
+  <div class="config-topbar">
+    <h2>分类设置 <span>·</span> 人工标注</h2>
+    <button class="close-btn" onclick="toggleConfig()">✓ 完成</button>
+  </div>
+  <div class="config-body">
+    <div class="config-intro">
+      你比任何算法都了解这些号的调性。<br>
+      标为 <em>深度</em> 的号归入上半区长文阅读，标为 <em>快讯</em> 的归入下半区简报。<br>
+      <span style="color:rgba(82,82,91,.3)">拿不准的标 <em>自动</em> ——我来按文章长度帮你分。</span>
+    </div>
+    <div id="configAccountList"></div>
+  </div>
+</div>
+
+<script>
+// ===== Data =====
+let allArticles = [];
+let currentFilter = 'all';
+let deepScrollTimer = null;
+
+// ===== All 57 accounts with classification (default based on type) =====
+const ACCOUNT_CONFIG = {
+  '落日间':            { type: 'longform' },
+  '数字生命卡兹克':      { type: 'longform' },
+  '群学书院':           { type: 'longform' },
+  '哲学研究':           { type: 'longform' },
+  '黑神话':             { type: 'longform' },
+  '半月谈':             { type: 'news' },
+  '央视财经':           { type: 'news' },
+  '光明日报':           { type: 'news' },
+  '中国科学报':         { type: 'news' },
+  '人民日报':           { type: 'news' },
+  '语言即世界language is world': { type: 'longform' },
+  'DeepSeek':          { type: 'auto' },
+  '贵州大学化学与化工学院': { type: 'auto' },
+  '贵州大学美术学院':    { type: 'auto' },
+  '贵大体育':           { type: 'auto' },
+  '政治经济学评论':      { type: 'longform' },
+  '伙伴神在线':         { type: 'auto' },
+  '贵州大学本科招生办公室': { type: 'auto' },
+  '宁都红色马拉松':      { type: 'auto' },
+  '中国大学生在线':      { type: 'auto' },
+  '贵大心理':           { type: 'auto' },
+  '香港中文大学深圳':    { type: 'auto' },
+  '国家自然科学基金委员会': { type: 'auto' },
+  '贵州大学医院':        { type: 'auto' },
+  '贵州大学':           { type: 'auto' },
+  '世界哲学杂志':        { type: 'longform' },
+  '雨梨设计':           { type: 'longform' },
+  'Planet':            { type: 'longform' },
+  '星球数据派':         { type: 'longform' },
+  '贵大青年':           { type: 'auto' },
+  '贵大学工':           { type: 'auto' },
+  '贵大化院学工之家':    { type: 'auto' },
+  '贵州大学音乐学院':    { type: 'auto' },
+  '贵大后勤管理处':      { type: 'auto' },
+  '宁都中学':           { type: 'auto' },
+  '宁都县第二中学':      { type: 'auto' },
+  '宁都县宁师中学':      { type: 'auto' },
+  '宁都共青团':         { type: 'auto' },
+  '江西省教育厅':        { type: 'auto' },
+  '江西省教育考试院':    { type: 'auto' },
+  '小南新':             { type: 'auto' },
+  '创青春':             { type: 'auto' },
+  'Guiyangwow':        { type: 'auto' },
+  '保研岛':             { type: 'auto' },
+  '超算互联网':         { type: 'auto' },
+  '三近斋杂记':         { type: 'longform' },
+  'CPEER':             { type: 'longform' },
+  '陕西省社会科学院':    { type: 'longform' },
+  '北大哲学人':         { type: 'longform' },
+  '贵州大学出版社':      { type: 'auto' },
+  '贵阳交响乐团':        { type: 'auto' },
+  '人文杂志':           { type: 'longform' },
+  '数字生命卡兹克':      { type: 'longform' },
+  '武汉大学':           { type: 'auto' },
+  '网络MIDI音乐制作资源库': { type: 'auto' },
+  '绿色农药全国重点实验室 GPL': { type: 'auto' },
+  '高中学习会':         { type: 'auto' },
+};
+
+// ===== Helpers =====
+function escapeHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+function relativeDate(iso) {
+  const now = Date.now(), d = new Date(iso).getTime(), diff = now - d;
+  const mins = Math.floor(diff / 60000), hours = Math.floor(diff / 3600000), days = Math.floor(diff / 86400000);
+  if (mins < 1) return '刚刚';
+  if (mins < 60) return mins + '分钟前';
+  if (hours < 24) return hours + '小时前';
+  if (days < 7) return days + '天前';
+  if (days < 30) return Math.floor(days / 7) + '周前';
+  if (days < 365) return Math.floor(days / 30) + '个月前';
+  return new Date(iso).toLocaleDateString('zh-CN', { month:'short', day:'numeric' });
+}
+function formatDate(iso) {
+  const d = new Date(iso);
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const yesterday = new Date(today.getTime() - 86400000);
+  const dDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  if (dDate.getTime() === today.getTime()) return '今天';
+  if (dDate.getTime() === yesterday.getTime()) return '昨天';
+  return (d.getMonth()+1)+'月'+d.getDate()+'日';
+}
+function formatTime(iso) {
+  const d = new Date(iso);
+  return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+}
+function getAccountType(author) {
+  const cfg = ACCOUNT_CONFIG[author];
+  if (!cfg) return 'hidden';
+  if (cfg.type === 'auto') {
+    // Heuristic: >2000 chars longform, <800 news, in-between use content length
+    const _articles = allArticles.filter(a => a.author === author);
+    // For safety, mark the account type based on average article content length
+    return 'news'; // auto defaults to news for now
+  }
+  return cfg.type;
+}
+
+// ===== Render Sidebar Accounts =====
+function renderSidebarAccounts() {
+  const el = document.getElementById('sidebarAccounts');
+  const counts = {};
+  allArticles.forEach(a => {
+    const t = getAccountType(a.author);
+    if (t !== 'hidden') counts[a.author] = (counts[a.author] || 0) + 1;
+  });
+  const shown = Object.keys(ACCOUNT_CONFIG).filter(name => getAccountType(name) !== 'hidden');
+  el.innerHTML = shown.map(name => {
+    const c = counts[name] || 0;
+    const t = getAccountType(name);
+    const dot = t === 'longform' ? '✦' : '◈';
+    const color = t === 'longform' ? 'rgba(129,140,248,.5)' : 'rgba(251,191,36,.4)';
+    return `<div style="color:${color};font-size:13px;padding:4px 8px;border-radius:4px">${dot} ${name} <span style="color:rgba(82,82,91,.25);font-size:11px">${c}</span></div>`;
+  }).join('');
+}
+
+// ===== Assign article types =====
+function getArticleType(a) {
+  const cfg = ACCOUNT_CONFIG[a.author];
+  if (!cfg) return 'hidden';
+  if (cfg.type === 'auto') {
+    const len = (a.content || a.summary || '').length;
+    return len > 2000 ? 'longform' : 'news';
+  }
+  return cfg.type;
+}
+
+// ===== Render all =====
+function renderAll() {
+  const longContainer = document.getElementById('longformContainer');
+  const newsContainer = document.getElementById('newsContainer');
+  const title = document.getElementById('viewTitle');
+  const longPanel = document.getElementById('longformPanel');
+  const newsPanel = document.getElementById('newsPanel');
+
+  const filterNames = { all:'全部', longform:'深度', news:'快讯' };
+  title.textContent = filterNames[currentFilter] || '全部';
+
+  // Show/hide panels based on filter
+  if (currentFilter === 'longform') {
+    longPanel.style.display = ''; newsPanel.style.display = 'none';
+  } else if (currentFilter === 'news') {
+    longPanel.style.display = 'none'; newsPanel.style.display = '';
+  } else {
+    longPanel.style.display = ''; newsPanel.style.display = '';
+  }
+
+  let active = allArticles.filter(a => getArticleType(a) !== 'hidden');
+
+  // Longform
+  let longArts = active.filter(a => getArticleType(a) === 'longform');
+  longArts.sort((a,b) => new Date(b.pubDate) - new Date(a.pubDate));
+  if (longArts.length === 0) {
+    longContainer.innerHTML = '<div class="empty-state" style="padding:20px"><h3>暂无深度文章</h3></div>';
+  } else {
+    longContainer.innerHTML = longArts.map(a => {
+      const globalIdx = allArticles.indexOf(a);
+      const readTime = a.content ? Math.max(1, Math.round(a.content.length / 400)) : null;
+      return `<div class="long-card" onclick="openDeepReader(${globalIdx})">
+        <div class="info">
+          <div class="title">${escapeHtml(a.title)}</div>
+          <div class="meta">
+            <span class="author">${escapeHtml(a.author)}</span>
+            <span>·</span><span>${relativeDate(a.pubDate)}</span>
+            ${readTime ? `<span>·</span><span class="readtime">${readTime} 分钟</span>` : ''}
+          </div>
+          ${a.summary ? `<div class="summary">${escapeHtml(a.summary.slice(0, 140))}</div>` : ''}
+        </div>
+        <div class="action"><button class="btn">阅读</button></div>
+      </div>`;
+    }).join('');
+  }
+
+  // News - date grouped
+  let newsArts = active.filter(a => getArticleType(a) === 'news');
+  newsArts.sort((a,b) => new Date(b.pubDate) - new Date(a.pubDate));
+  if (newsArts.length === 0) {
+    newsContainer.innerHTML = '<div class="empty-state" style="padding:16px"><h3>暂无快讯</h3></div>';
+  } else {
+    const groups = {};
+    newsArts.forEach(a => {
+      const key = formatDate(a.pubDate);
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(a);
+    });
+    newsContainer.innerHTML = Object.keys(groups).map(dateLabel => {
+      return `<div style="margin-bottom:6px">
+        <div style="font-size:11px;color:var(--text-dim);padding:2px 0 3px;letter-spacing:.3px">${dateLabel}</div>
+        ${groups[dateLabel].map(a => {
+          const globalIdx = allArticles.indexOf(a);
+          return `<div class="news-card" onclick="openNewsReader(${globalIdx})">
+            <span class="time">${formatTime(a.pubDate)}</span>
+            <div class="info">
+              <div class="title">${escapeHtml(a.title)}</div>
+              <div class="meta">${escapeHtml(a.author)}</div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`;
+    }).join('');
+  }
+}
+
+// ===== Deep Reader =====
+function openDeepReader(idx) {
+  const a = allArticles[idx];
+  if (!a) return;
+  document.getElementById('deepReader').classList.add('active');
+  document.getElementById('deepTitle').textContent = a.title;
+  document.getElementById('deepH1').textContent = a.title;
+  const readTime = a.content ? Math.max(1, Math.round(a.content.length / 400)) : '';
+  document.getElementById('deepMeta').innerHTML =
+    `<em>${escapeHtml(a.author)}</em> · ${relativeDate(a.pubDate)}${readTime ? ' · '+readTime+' 分钟' : ''}`;
+  if (a.content) {
+    const paragraphs = a.content.split('\n\n').filter(p => p.trim());
+    document.getElementById('deepText').innerHTML = paragraphs.map(p => `<p>${escapeHtml(p.trim())}</p>`).join('');
+  } else {
+    document.getElementById('deepText').innerHTML = '<p style="color:rgba(82,82,91,.4);font-style:italic">内容提取中……</p>';
+  }
+  document.getElementById('deepProgressFill').style.width = '0%';
+  document.getElementById('deepBody').scrollTop = 0;
+}
+document.getElementById('deepBack').addEventListener('click', () => {
+  document.getElementById('deepReader').classList.remove('active');
+});
+document.getElementById('deepBody').addEventListener('scroll', () => {
+  const el = document.getElementById('deepBody');
+  const pct = el.scrollHeight > el.clientHeight
+    ? Math.round((el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100) : 0;
+  document.getElementById('deepProgressFill').style.width = Math.min(100, pct) + '%';
+});
+
+// ===== News Reader =====
+function openNewsReader(idx) {
+  const a = allArticles[idx];
+  if (!a) return;
+  document.getElementById('newsReader').classList.add('active');
+  document.getElementById('newsTitle').textContent = a.title;
+  document.getElementById('newsSource').textContent = a.author;
+  document.getElementById('newsMeta').textContent = a.author + ' · ' + relativeDate(a.pubDate);
+  if (a.content) {
+    const paragraphs = a.content.split('\n\n').filter(p => p.trim());
+    document.getElementById('newsText').innerHTML = paragraphs.map(p => `<p>${escapeHtml(p.trim())}</p>`).join('');
+  } else {
+    document.getElementById('newsText').innerHTML = '<p style="color:rgba(82,82,91,.4);font-style:italic">内容加载中……</p>';
+  }
+}
+function hideNewsReader() { document.getElementById('newsReader').classList.remove('active'); }
+function closeNewsReader(e) {
+  if (e.target === document.getElementById('newsReader')) hideNewsReader();
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const nr = document.getElementById('newsReader');
+    const dr = document.getElementById('deepReader');
+    if (nr.classList.contains('active')) hideNewsReader();
+    else if (dr.classList.contains('active')) dr.classList.remove('active');
+  }
+});
+
+// ===== Filter =====
+document.querySelectorAll('.filter-item').forEach(el => {
+  el.addEventListener('click', function() {
+    document.querySelectorAll('.filter-item').forEach(f => f.classList.remove('active'));
+    this.classList.add('active');
+    currentFilter = this.dataset.filter;
+    renderAll();
+  });
+});
+
+// ===== Config Panel =====
+function toggleConfig() {
+  const panel = document.getElementById('configPanel');
+  panel.classList.toggle('active');
+  if (panel.classList.contains('active')) renderConfig();
+}
+function renderConfig() {
+  const list = document.getElementById('configAccountList');
+  const sections = { longform: [], news: [], auto: [] };
+  Object.keys(ACCOUNT_CONFIG).forEach(name => {
+    const t = ACCOUNT_CONFIG[name].type;
+    if (!sections[t]) sections[t] = [];
+    sections[t].push(name);
+  });
+
+  let html = '';
+  const labels = { longform: '深度号', news: '快讯号', auto: '自动判断 · 我来帮你分' };
+  const hints = { longform: '', news: '', auto: '(按文章字数特征)' };
+  const actCls = { longform: 'long-active', news: 'news-active', auto: 'auto-active' };
+
+  ['longform', 'news', 'auto'].forEach(section => {
+    const names = sections[section] || [];
+    if (names.length === 0) return;
+    html += `<div class="config-section">${labels[section]} <span class="hint">${hints[section]}</span></div>`;
+    names.forEach(name => {
+      const cfg = ACCOUNT_CONFIG[name];
+      const arts = allArticles.filter(a => a.author === name);
+      html += `<div class="config-account" data-account="${name}">
+        <span class="name">${name}</span>
+        <span class="count">${arts.length} 篇</span>
+        <div class="type-select">
+          <button class="${cfg.type === 'longform' ? 'long-active' : ''}" onclick="setAccountType('${name}','longform')">深度</button>
+          <button class="${cfg.type === 'news' ? 'news-active' : ''}" onclick="setAccountType('${name}','news')">快讯</button>
+          <button class="${cfg.type === 'auto' ? 'auto-active' : ''}" onclick="setAccountType('${name}','auto')">自动</button>
+        </div>
+      </div>`;
+    });
+  });
+  list.innerHTML = html;
+}
+function setAccountType(name, type) {
+  if (ACCOUNT_CONFIG[name]) {
+    ACCOUNT_CONFIG[name].type = type;
+    renderConfig();
+    renderSidebarAccounts();
+    renderAll();
+  }
+}
+
+// ===== Load =====
+async function loadData() {
+  try {
+    const res = await fetch('articles.json?' + Date.now());
+    if (!res.ok) throw new Error('无法加载文章数据');
+    allArticles = await res.json();
+    renderSidebarAccounts();
+    renderAll();
+  } catch(e) {
+    document.getElementById('longformContainer').innerHTML =
+      `<div class="empty-state"><h3>${escapeHtml(e.message)}</h3></div>`;
+  }
+}
+loadData();
+</script>
+</body>
+</html>

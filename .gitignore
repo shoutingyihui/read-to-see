@@ -1,0 +1,26 @@
+# 阅见 · 月下观书 — Git 忽略规则
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+
+# 备份文件
+backup/
+*.backup
+*.bak
+*.bak.*
+
+# 历史迭代脚本（已归档）
+archive/
+
+# 环境变量
+.env
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 临时文件
+*.tmp
+/tmp/
