@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>期末复习计划表 · 打印版</title>
+<style>
+/* ═══════════════════════════════════════════
+   大块卡片排版 — 专门为 A4 打印优化
+   每天一大块，清晰醒目
+   ═══════════════════════════════════════════ */
+:root {
+  --analytical: #dc3545;
+  --analytical-bg: #fff5f5;
+  --inorganic: #1a73e8;
+  --inorganic-bg: #f0f6ff;
+  --math: #7c3aed;
+  --math-bg: #f5f0ff;
+  --english: #16a34a;
+  --english-bg: #f0fdf4;
+  --marxism: #d97706;
+  --marxism-bg: #fffbf0;
+  --history: #4a6fa5;
+  --history-bg: #f0f5fb;
+  --rest: #6b7280;
+  --rest-bg: #f3f4f6;
+
+  --border: #d4d2ce;
+  --text: #1c1b1a;
+  --text-muted: #5c5a56;
+  --accent: #3b5de7;
+  --font: "PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:12px}
+body{
+  font-family:var(--font);
+  background:#faf9f7;
+  color:var(--text);
+  line-height:1.5;
+  padding:20px;
+}
+
+/* ════════════════ 页面设置（A4） ════════════════ */
+@page{
+  size:A4 portrait;
+  margin:14mm 16mm;
+}
+
+.page{
+  width:190mm;
+  min-height:267mm;
+  margin:0 auto 16px auto;
+  background:#fff;
+  padding:16mm 18mm;
+  box-shadow:0 1px 8px rgba(0,0,0,.08);
+  position:relative;
+  page-break-after:always;
+}
+
+/* ════════════════ 标题 ════════════════ */
+.header{
+  text-align:center;
+  padding-bottom:14px;
+  border-bottom:3px solid #1c1b1a;
+  margin-bottom:18px;
+}
+.header h1{
+  font-size:20px;
+  font-weight:700;
+  letter-spacing:6px;
+}
+.header .sub{
+  font-size:11px;
+  color:#5c5a56;
+  margin-top:4px;
+}
+
+/* 优先级条 */
+.priority-strip{
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px 0;
+  margin-bottom:14px;
+  font-size:9px;
+  color:#5c5a56;
+}
+.priority-strip span{
+  padding:0 10px;
+  border-right:1px solid #d4d2ce;
+}
+.priority-strip span:last-child{border-right:none}
+
+/* ════════════════ 日历条 ════════════════ */
+.exam-strip{
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px;
+  margin-bottom:16px;
+}
+.exam-strip .exam-tag{
+  padding:2px 10px;
+  border-radius:3px;
+  font-size:10px;
+  font-weight:600;
+}
+
+/* ════════════════ 区块标题 ════════════════ */
+.section-label{
+  font-size:14px;
+  font-weight:700;
+  padding:6px 14px;
+  margin-bottom:14px;
+  border-radius:4px;
+}
+.section-label.short{background:#3b5de7;color:#fff}
+.section-label.long{background:#1e3a5f;color:#fff}
+.section-label .range{font-weight:400;font-size:11px;opacity:.8;margin-left:8px}
+
+/* ════════════════ 大块卡片 ════════════════ */
+.day-block{
+  border:1.5px solid #ddd;
+  border-radius:6px;
+  margin-bottom:12px;
+  overflow:hidden;
+  page-break-inside:avoid;
+}
+
+/* 每块头部 — 日期醒目 */
+.day-block-head{
+  display:flex;
+  align-items:center;
+  padding:8px 14px;
+  background:#f5f4f2;
+  border-bottom:1.5px solid #ddd;
+  gap:10px;
+}
+.day-block-head .day-num{
+  font-size:18px;
+  font-weight:800;
+  line-height:1;
+}
+.day-block-head .day-name{
+  font-size:13px;
+  font-weight:600;
+}
+.day-block-head .day-date{
+  font-size:11px;
+  color:#5c5a56;
+}
+.day-block-head .day-check{
+  width:20px;height:20px;
+  border:2px solid #999;
+  border-radius:4px;
+  flex-shrink:0;
+  margin-left:auto;
+}
+.day-block-head .exam-badge{
+  margin-left:auto;
+  padding:3px 12px;
+  background:#dc3545;
+  color:#fff;
+  border-radius:4px;
+  font-size:10px;
+  font-weight:700;
+}
+.day-block-head .rest-badge{
+  margin-left:auto;
+  padding:3px 12px;
+  background:#6b7280;
+  color:#fff;
+  border-radius:4px;
+  font-size:10px;
+  font-weight:700;
+}
+.day-block-head .start-badge{
+  margin-left:auto;
+  padding:3px 12px;
+  background:#3b5de7;
+  color:#fff;
+  border-radius:4px;
+  font-size:10px;
+  font-weight:700;
+}
+
+/* 每块任务体 — 大块展示 */
+.day-block-body{
+  padding:10px 14px 12px;
+}
+.day-block-body .task-row{
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  padding:6px 0;
+}
+.day-block-body .task-row + .task-row{
+  border-top:1px dashed #eee;
+}
+.day-block-body .task-check{
+  width:18px;height:18px;
+  border:2px solid #bbb;
+  border-radius:3px;
+  flex-shrink:0;
+  margin-top:1px;
+}
+.day-block-body .task-text{
+  font-size:12px;
+  line-height:1.5;
+  flex:1;
+}
+
+.tag{
+  display:inline-block;
+  padding:1px 8px;
+  border-radius:3px;
+  font-size:10px;
+  font-weight:600;
+  margin-right:4px;
+}
+.tag-analytical{background:#fff5f5;color:#dc3545;border:1px solid #fcc}
+.tag-inorganic{background:#f0f6ff;color:#1a73e8;border:1px solid #cce}
+.tag-math{background:#f5f0ff;color:#7c3aed;border:1px solid #e5d}
+.tag-english{background:#f0fdf4;color:#16a34a;border:1px solid #bfb}
+.tag-marxism{background:#fffbf0;color:#d97706;border:1px solid #fdecc8}
+.tag-history{background:#f0f5fb;color:#4a6fa5;border:1px solid #cdd}
+.tag-rest{background:#f3f4f6;color:#6b7280}
+.tag-exam{background:#dc3545;color:#fff}
+.tag-star{background:#fbbf24;color:#92400e;border:none}
+
+/* ════════════════ 页脚 ════════════════ */
+.footer{
+  text-align:center;
+  padding:20px 0 0;
+  color:#b0ada8;
+  font-size:9px;
+  border-top:1px solid #eee;
+  margin-top:10px;
+}
+
+/* ════════════════ 打印优化 ════════════════ */
+@media print{
+  body{background:#fff;padding:0;font-size:10px}
+  .page{box-shadow:none;margin:0;padding:0;width:auto;min-height:auto}
+  .day-block{page-break-inside:avoid}
+  .day-block-head .day-check,
+  .day-block-body .task-check{
+    print-color-adjust:exact;
+    -webkit-print-color-adjust:exact;
+  }
+  .tag,.exam-strip .exam-tag,.section-label,.day-block-head .exam-badge,
+  .day-block-head .rest-badge,.day-block-head .start-badge{
+    print-color-adjust:exact;
+    -webkit-print-color-adjust:exact;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 1: 短期计划 + 长期计划上半
+     ═══════════════════════════════════════════ -->
+<div class="page">
+
+<div class="header">
+  <h1>📚 期末复习计划表</h1>
+  <div class="sub">2025 春 · 考试冲刺 &nbsp;|&nbsp; 完成即勾 ✓</div>
+</div>
+
+<div class="priority-strip">
+  <span><b>🎯 优先级：</b></span>
+  <span><span style="color:#dc3545">●</span> 分析化学 ></span>
+  <span><span style="color:#1a73e8">●</span> 无机化学 ></span>
+  <span><span style="color:#7c3aed">●</span> 高等数学 ></span>
+  <span><span style="color:#16a34a">●</span> 英语 ></span>
+  <span><span style="color:#d97706">●</span> 马原 ></span>
+  <span><span style="color:#4a6fa5">●</span> 史纲</span>
+</div>
+
+<div class="exam-strip">
+  <span class="exam-tag" style="background:#f0fdf4;color:#16a34a;border:1px solid #a3e6b5">7/06 英语</span>
+  <span class="exam-tag" style="background:#fffbf0;color:#d97706;border:1px solid #fde68a">7/07 9-11 马原</span>
+  <span class="exam-tag" style="background:#f0f5fb;color:#4a6fa5;border:1px solid #b8cce0">7/07 14:30 史纲</span>
+  <span class="exam-tag" style="background:#fff5f5;color:#dc3545;border:1px solid #fcc">7/08 14:30 分析化学</span>
+  <span class="exam-tag" style="background:#f5f0ff;color:#7c3aed;border:1px solid #d9c7f0">7/09 9-11 高数</span>
+  <span class="exam-tag" style="background:#f0f6ff;color:#1a73e8;border:1px solid #b8d4ff">7/10 9-11 无机化学</span>
+</div>
+
+<!-- ═══ 短期计划 ═══ -->
+<div class="section-label short">📋 短期计划 <span class="range">6月16日（周二）— 6月21日（周日）</span></div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">16</span>
+    <span class="day-name">周二</span>
+    <span class="day-date">6月16日</span>
+    <span style="font-size:9px;color:#3b5de7;font-weight:600">今天</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row">
+      <div class="task-check"></div>
+      <div class="task-text">📝 下午：完成长期期末复习计划表（即本计划表）</div>
+    </div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">17</span>
+    <span class="day-name">周三</span>
+    <span class="day-date">6月17日</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row">
+      <div class="task-check"></div>
+      <div class="task-text"><span class="tag tag-math">高数</span>完成高数最后一次作业</div>
+    </div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">18</span>
+    <span class="day-name">周四</span>
+    <span class="day-date">6月18日</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row">
+      <div class="task-check"></div>
+      <div class="task-text"><span class="tag tag-marxism">马原</span><span class="tag tag-history">史纲</span>整理马原 + 史纲选择题题库</div>
+    </div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">19</span>
+    <span class="day-name">周五</span>
+    <span class="day-date">6月19日</span>
+    <span class="rest-badge">🎉 端午休息</span>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row">
+      <div class="task-check"></div>
+      <div class="task-text">🌿 放松休息，吃粽子 🫘</div>
+    </div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">20</span>
+    <span class="day-name">周六</span>
+    <span class="day-date">6月20日</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row">
+      <div class="task-check"></div>
+      <div class="task-text"><span class="tag tag-english">英语</span>完成英语所有网上作业</div>
+    </div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">21</span>
+    <span class="day-name">周日</span>
+    <span class="day-date">6月21日</span>
+    <span class="start-badge">🚀 启动复习</span>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row">
+      <div class="task-check"></div>
+      <div class="task-text">开始全面进入复习阶段 → 见下方长期计划表</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 长期计划上半：6/21 → 7/1 ═══ -->
+<div class="section-label long">📋 长期复习计划 · 第一阶段 <span class="range">6月21日（周日）— 7月1日（周三）· 基础构建 + 深入巩固</span></div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">21</span>
+    <span class="day-name">周日</span>
+    <span class="day-date">6月21日 · D-1</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-analytical">分析化学</span>第1-2章基础回顾，搞清整体框架</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-inorganic">无机化学</span>根据老师考题提示，整理复习重点清单</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text">📐 制定个人复习节奏，规划每日时间分配</div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">22</span>
+    <span class="day-name">周一</span>
+    <span class="day-date">6月22日 · D-2</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-analytical">分析化学</span>第3-4章精读 + 公式标注</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-inorganic">无机化学</span>基础概念通览，标记不理解的部分</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-math">高数</span>翻教材目录，回顾本学期所学章节大纲</div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">23</span>
+    <span class="day-name">周二</span>
+    <span class="day-date">6月23日 · D-3</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-analytical">分析化学</span>第5-6章精读 + 例题演练</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-inorganic">无机化学</span>重点章节内容梳理（上）</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-math">高数</span>基础概念回顾：极限、连续</div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">24</span>
+    <span class="day-name">周三</span>
+    <span class="day-date">6月24日 · D-4</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-analytical">分析化学</span>第7-8章（难点章节）精读 + 标记卡壳点</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-inorganic">无机化学</span>重点章节内容梳理（下）</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-english">英语</span>登录 WeLearn / U校园，整理材料和待办清单</div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">25</span>
+    <span class="day-name">周四</span>
+    <span class="day-date">6月25日 · D-5</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-analytical">分析化学</span>全章公式汇总 + 课后习题选做</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-inorganic">无机化学</span>关键反应式与概念强化记忆</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-math">高数</span>导数与微分概念 + 基础计算练习</div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">26</span>
+    <span class="day-name">周五</span>
+    <span class="day-date">6月26日 · D-6</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-analytical">分析化学</span>难点章节回炉重看，攻克卡壳点</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-inorganic">无机化学</span>根据老师提示做针对性练习</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-marxism">马原</span>开始整理题库，重点标注经济部分章节</div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">27</span>
+    <span class="day-name">周六</span>
+    <span class="day-date">6月27日 · D-7</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-analytical">分析化学</span>全章内容串讲回顾 + 做一套综合题</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-inorganic">无机化学</span>老师提示重点区域强化复习</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-math">高数</span>中值定理 + 导数应用</div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">28</span>
+    <span class="day-name">周日</span>
+    <span class="day-date">6月28日 · D-8</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-analytical">分析化学</span>错题重做 + 公式默写</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-inorganic">无机化学</span>背诵性内容 + 重要公式集中记忆</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-english">英语</span>WeLearn 平台任务推进</div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">29</span>
+    <span class="day-name">周一</span>
+    <span class="day-date">6月29日 · D-9</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-analytical">分析化学</span>薄弱环节专项突破（标记的卡壳点）</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-math">高数</span>不定积分 + 定积分计算练习</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-history">史纲</span>时间线梳理：近代史大事记</div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">30</span>
+    <span class="day-name">周二</span>
+    <span class="day-date">6月30日 · D-10</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-analytical">分析化学</span>综合模拟测试，检验掌握程度</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-inorganic">无机化学</span>反应方程式 + 计算题型专项练习</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-marxism">马原</span>题库刷题（重点：经济部分深钻）</div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">1</span>
+    <span style="font-size:11px;font-weight:400;color:#888">七月</span>
+    <span class="day-name">周三</span>
+    <span class="day-date">7月1日 · D-11</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-analytical">分析化学</span>所有公式汇总成表 + 最后一遍全书快速翻阅</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-inorganic">无机化学</span>老师提示内容最后一次系统回顾</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-math">高数</span>微分方程 + 空间解析几何</div></div>
+  </div>
+</div>
+
+<div class="footer">阅见 · 期末复习计划 · 2025 夏 &nbsp;|&nbsp; 第 1 页 / 共 2 页</div>
+</div><!-- /page 1 -->
+
+<!-- ═══════════════════════════════════════════
+     PAGE 2: 长期计划下半 7/2 → 7/10
+     ═══════════════════════════════════════════ -->
+<div class="page">
+
+<div class="header">
+  <h1>📚 期末复习计划表（续）</h1>
+  <div class="sub">2025 春 · 考试冲刺 &nbsp;|&nbsp; 完成即勾 ✓</div>
+</div>
+
+<div class="exam-strip">
+  <span class="exam-tag" style="background:#f0fdf4;color:#16a34a;border:1px solid #a3e6b5">7/06 英语</span>
+  <span class="exam-tag" style="background:#fffbf0;color:#d97706;border:1px solid #fde68a">7/07 9-11 马原</span>
+  <span class="exam-tag" style="background:#f0f5fb;color:#4a6fa5;border:1px solid #b8cce0">7/07 14:30 史纲</span>
+  <span class="exam-tag" style="background:#fff5f5;color:#dc3545;border:1px solid #fcc">7/08 14:30 分析化学</span>
+  <span class="exam-tag" style="background:#f5f0ff;color:#7c3aed;border:1px solid #d9c7f0">7/09 9-11 高数</span>
+  <span class="exam-tag" style="background:#f0f6ff;color:#1a73e8;border:1px solid #b8d4ff">7/10 9-11 无机化学</span>
+</div>
+
+<div class="section-label long" style="background:#1e3a5f">📋 长期复习计划 · 第二阶段 <span class="range">7月2日（周四）— 7月5日（周日）· 冲刺巩固</span></div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">2</span>
+    <span class="day-name">周四</span>
+    <span class="day-date">7月2日 · D-12</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-analytical">分析化学</span>错题回顾 + 薄弱知识点最终解决</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-inorganic">无机化学</span>全面通览一遍，标注二级重点</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-english">英语</span>U校园任务完成 + 教材单元复习</div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">3</span>
+    <span class="day-name">周五</span>
+    <span class="day-date">7月3日 · D-13</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-inorganic">无机化学</span>最终全面复习 + 薄弱点强化</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-math">高数</span>重难点题型练习 + 真题手感</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-marxism">马原</span>题库刷第二遍，经济部分反复看</div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">4</span>
+    <span class="day-name">周六</span>
+    <span class="day-date">7月4日 · D-14</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-english">英语</span>三平台综合复习 + 作文模板整理</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-history">史纲</span>关键事件 + 意义影响记忆</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text">🔍 检查各科薄弱点，查漏补缺</div></div>
+  </div>
+</div>
+
+<div class="day-block">
+  <div class="day-block-head">
+    <span class="day-num">5</span>
+    <span class="day-name">周日</span>
+    <span class="day-date">7月5日 · D-15</span>
+    <div class="day-check"></div>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-english">英语</span>听力练习 + 作文冲刺 + 单词快速过</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-marxism">马原</span>题库最后过一遍 + 经济部分理清逻辑</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-history">史纲</span>最后梳理一遍时间线</div></div>
+  </div>
+</div>
+
+<!-- ═══ 考试周 ═══ -->
+<div class="section-label" style="background:#dc3545;color:#fff;font-size:14px;font-weight:700;padding:6px 14px;margin-bottom:14px;border-radius:4px">
+  ⭐ 考试周 <span class="range" style="font-weight:400;font-size:11px;opacity:.8">7月6日（周一）— 7月10日（周五）</span>
+</div>
+
+<div class="day-block" style="border-left:5px solid #16a34a">
+  <div class="day-block-head" style="background:#f0fdf4">
+    <span class="day-num">6</span>
+    <span class="day-name">周一</span>
+    <span class="day-date">7月6日</span>
+    <span class="exam-badge">★ 英语考试</span>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-english">英语</span>上午：最后翻看笔记、作文模板、单词</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><b>📝 下午：英语考试</b></div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-marxism">马原</span>晚上：快速过一遍题库，准备明天马原</div></div>
+  </div>
+</div>
+
+<div class="day-block" style="border-left:5px solid #d97706">
+  <div class="day-block-head" style="background:#fffbf0">
+    <span class="day-num">7</span>
+    <span class="day-name">周二</span>
+    <span class="day-date">7月7日</span>
+    <span class="exam-badge">★ 双考日</span>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-marxism">马原</span><b>⏰ 9:00—11:00 马克思主义基本原理考试</b></div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text">🍚 中午休息 + 快速翻看史纲</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-history">史纲</span><b>⏰ 14:30—16:30 中国近现代史纲要考试</b></div></div>
+  </div>
+</div>
+
+<div class="day-block" style="border-left:5px solid #dc3545">
+  <div class="day-block-head" style="background:#fff5f5">
+    <span class="day-num">8</span>
+    <span class="day-name">周三</span>
+    <span class="day-date">7月8日</span>
+    <span class="exam-badge" style="background:#dc3545">★ 分析化学</span>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-analytical">分析化学</span>上午：公式表最后看一遍 + 易错点提醒</div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-analytical">分析化学</span><b>⏰ 14:30—16:30 分析化学考试</b></div></div>
+  </div>
+</div>
+
+<div class="day-block" style="border-left:5px solid #7c3aed">
+  <div class="day-block-head" style="background:#f5f0ff">
+    <span class="day-num">9</span>
+    <span class="day-name">周四</span>
+    <span class="day-date">7月9日</span>
+    <span class="exam-badge" style="background:#7c3aed">★ 高等数学</span>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-math">高数</span><b>⏰ 9:00—11:00 高等数学考试</b></div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-inorganic">无机化学</span>下午：无机化学最后冲刺复习</div></div>
+  </div>
+</div>
+
+<div class="day-block" style="border-left:5px solid #1a73e8">
+  <div class="day-block-head" style="background:#f0f6ff">
+    <span class="day-num">10</span>
+    <span class="day-name">周五</span>
+    <span class="day-date">7月10日</span>
+    <span class="exam-badge" style="background:#1a73e8">★ 无机化学</span>
+  </div>
+  <div class="day-block-body">
+    <div class="task-row"><div class="task-check"></div><div class="task-text"><span class="tag tag-inorganic">无机化学</span><b>⏰ 9:00—11:00 无机化学考试</b></div></div>
+    <div class="task-row"><div class="task-check"></div><div class="task-text">🎉 <b>考试全部结束！暑假开始 🏖️</b></div></div>
+  </div>
+</div>
+
+<div class="footer">阅见 · 期末复习计划 · 2025 夏 &nbsp;|&nbsp; 第 2 页 / 共 2 页</div>
+</div><!-- /page 2 -->
+
+</body>
+</html>
