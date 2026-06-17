@@ -2,1129 +2,482 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>期末复习计划表 · 考试冲刺</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>期末复习 · 全面计划</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════
-   全局重置与变量
-   ═══════════════════════════════════════════ */
-:root {
-  --bg: #faf9f7;
-  --bg-card: #ffffff;
-  --border: #e5e3df;
-  --border-light: #f0eeea;
-  --text: #2c2b28;
-  --text-muted: #888580;
-  --text-dim: #b0ada8;
-  --accent: #4a6cf7;
-  --accent-light: #e8edfe;
-
-  /* 学科颜色 */
-  --analytical: #dc3545;
-  --analytical-bg: #fef0f0;
-  --inorganic: #0d6efd;
-  --inorganic-bg: #eef4ff;
-  --math: #6f42c1;
-  --math-bg: #f3eefb;
-  --english: #198754;
-  --english-bg: #edf9f0;
-  --marxism: #e67e22;
-  --marxism-bg: #fef6ec;
-  --history: #4a6fa5;
-  --history-bg: #eef3f9;
-  --rest: #6c757d;
-  --rest-bg: #f2f2f2;
-
-  --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-  --font-mono: "SF Mono", "Cascadia Code", "Consolas", monospace;
-}
-
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:14px;-webkit-text-size-adjust:100%}
+/* ── Reset ── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+@media(max-width:480px){html{font-size:15px}}
 body{
-  font-family:var(--font-sans);
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.6;
-  padding:0;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:linear-gradient(165deg,#f7f3ee 0%,#f0ebe3 30%,#f5f0eb 70%,#faf5ef 100%);
+  color:#2c2c2e;line-height:1.6;min-height:100vh;
   -webkit-font-smoothing:antialiased;
 }
+.mono{font-family:'JetBrains Mono',monospace}
 
-/* ═══════════════════════════════════════════
-   容器
-   ═══════════════════════════════════════════ */
-.container{
-  max-width:1100px;
-  margin:0 auto;
-  padding:20px 16px;
+/* ── Color tokens ── */
+:root{
+  --bg-subtle:rgba(255,255,255,.55);
+  --card:rgba(255,255,255,.82);
+  --card-border:rgba(0,0,0,.06);
+  --text:#2c2c2e;
+  --text-secondary:#8e8e93;
+  --accent:#b8916e;
+  --accent-light:#d4b89b;
+  --shadow:0 2px 8px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.06);
+  --radius:14px;
+  --radius-sm:10px;
+  /* subject colors - muted, eye-friendly */
+  --c-english:#8b9bb4;
+  --c-marx:#c49a8c;
+  --c-history:#8db5a5;
+  --c-chem:#c49d6e;
+  --c-math:#8ba3b8;
+  --c-inorg:#9cb08e;
 }
+/* scrollbar */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#d1d1d6;border-radius:3px}
 
-/* ═══════════════════════════════════════════
-   标题
-   ═══════════════════════════════════════════ */
-.header{
-  text-align:center;
-  padding:30px 0 20px;
-  border-bottom:3px solid var(--accent);
-  margin-bottom:24px;
-}
-.header h1{
-  font-size:2rem;
-  font-weight:700;
-  letter-spacing:4px;
-  color:var(--text);
-}
-.header .sub{
-  font-size:0.9rem;
-  color:var(--text-muted);
-  margin-top:6px;
-}
-.header .badge{
-  display:inline-block;
-  background:var(--accent-light);
-  color:var(--accent);
-  padding:3px 14px;
-  border-radius:20px;
-  font-size:0.8rem;
-  font-weight:600;
-  margin-top:8px;
-}
+/* ── Reveal ── */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.rv.v{opacity:1;transform:translateY(0)}
+.rv-1{transition-delay:.08s}.rv-2{transition-delay:.16s}.rv-3{transition-delay:.24s}.rv-4{transition-delay:.32s}
 
-/* ═══════════════════════════════════════════
-   区块标题
-   ═══════════════════════════════════════════ */
-.section{
-  margin-bottom:32px;
+/* ── Hero ── */
+.hero{
+  min-height:70vh;display:flex;flex-direction:column;justify-content:center;
+  padding:3rem 1.5rem;position:relative;text-align:center;
+  background:linear-gradient(180deg,rgba(255,255,255,.6),transparent);
 }
-.section-title{
-  font-size:1.3rem;
-  font-weight:700;
-  padding:10px 16px;
-  background:var(--accent);
-  color:#fff;
-  border-radius:8px;
-  margin-bottom:16px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-.section-title.short{background:var(--accent)}
-.section-title.long{background:#2d3e8a}
-.section-title .date-range{
-  font-size:0.8rem;
-  font-weight:400;
-  opacity:0.85;
-  margin-left:auto;
-}
+.hero-sub{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-secondary);font-weight:500;margin-bottom:1rem}
+.hero-h1{font-size:clamp(2.2rem,6vw,4.5rem);font-weight:700;letter-spacing:-.03em;line-height:1.08;max-width:680px;margin:0 auto}
+.hero-h1 em{font-style:normal;color:var(--accent);position:relative}
+.hero-h1 em::after{content:'';position:absolute;bottom:.1em;left:0;right:0;height:3px;background:var(--accent-light);border-radius:2px;opacity:.5}
+.hero-desc{color:var(--text-secondary);max-width:420px;margin:.8rem auto 0;font-size:.95rem}
+.scroll-hint{margin-top:3rem;width:22px;height:36px;border:2px solid #c7c7cc;border-radius:11px;position:relative;display:inline-block}
+.scroll-hint::after{content:'';position:absolute;top:5px;left:50%;transform:translateX(-50%);width:3px;height:7px;background:#c7c7cc;border-radius:2px;animation:scrl 2s ease-in-out infinite}
+@keyframes scrl{0%,100%{transform:translateX(-50%) translateY(0);opacity:.8}50%{transform:translateX(-50%) translateY(10px);opacity:.2}}
 
-/* ═══════════════════════════════════════════
-   考试倒计时 / 信息条
-   ═══════════════════════════════════════════ */
-.exam-banner{
-  background:linear-gradient(135deg,#fff3cd,#fff8e1);
-  border:1px solid #ffc107;
-  border-radius:8px;
-  padding:12px 16px;
-  margin-bottom:20px;
-  font-size:0.85rem;
-}
-.exam-banner strong{color:#856404}
-.exam-banner .exam-list{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:4px}
-.exam-banner .exam-tag{
-  display:inline-block;
-  padding:1px 8px;
-  border-radius:4px;
-  font-size:0.8rem;
-  font-weight:500;
-}
+/* ── Container ── */
+.w{max-width:960px;margin:0 auto;padding:0 1.25rem}
+section{padding:4rem 0}
+.lbl{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:.5rem}
+h2{font-size:clamp(1.4rem,2.5vw,2rem);font-weight:650;letter-spacing:-.015em;margin-bottom:.4rem}
+.desc{color:var(--text-secondary);font-size:.92rem;margin-bottom:2rem;max-width:520px}
 
-/* ═══════════════════════════════════════════
-   优先级说明
-   ═══════════════════════════════════════════ */
-.legend{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px 14px;
-  padding:10px 14px;
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:8px;
-  margin-bottom:16px;
-  font-size:0.8rem;
-}
-.legend-item{
-  display:flex;
-  align-items:center;
-  gap:5px;
-}
-.legend-dot{
-  width:10px;height:10px;
-  border-radius:50%;
-  flex-shrink:0;
-}
+/* ── Countdown ── */
+.cd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-bottom:2rem}
+@media(min-width:600px){.cd-grid{grid-template-columns:repeat(6,1fr)}}
+.cd-c{background:var(--card);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:var(--radius-sm);padding:1rem .6rem;text-align:center;border:1px solid var(--card-border);box-shadow:var(--shadow)}
+.cd-n{font-size:clamp(1.4rem,2vw,2rem);font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--accent);line-height:1}
+.cd-l{font-size:.68rem;color:var(--text-secondary);margin-top:.25rem;font-weight:500}
 
-/* ═══════════════════════════════════════════
-   计划表 — 每日卡片
-   ═══════════════════════════════════════════ */
-.plan-grid{display:flex;flex-direction:column;gap:10px}
+/* ── Exam Table ── */
+.tbl{width:100%;border-collapse:separate;border-spacing:0 6px}
+.tbl th{text-align:left;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-secondary);font-weight:600;padding:.3rem .8rem}
+.tbl td{background:var(--card);backdrop-filter:blur(8px);padding:.75rem .9rem;border-radius:var(--radius-sm);border:1px solid var(--card-border);font-size:.88rem;box-shadow:var(--shadow)}
+.tbl .nm{font-weight:600}
+.tbl .dt{color:var(--text-secondary);white-space:nowrap;font-size:.82rem}
+.tbl .tm{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--text-secondary);white-space:nowrap}
+.prio-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:.5rem;flex-shrink:0}
 
-.day-card{
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:8px;
-  overflow:hidden;
-  transition:box-shadow 0.15s;
-}
-.day-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.06)}
+/* ── Stats ── */
+.st-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media(min-width:480px){.st-grid{grid-template-columns:repeat(4,1fr)}}
+.st-c{background:var(--card);backdrop-filter:blur(8px);border-radius:var(--radius-sm);padding:1.2rem .8rem;text-align:center;border:1px solid var(--card-border);box-shadow:var(--shadow)}
+.st-n{font-size:clamp(1.8rem,3vw,2.8rem);font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--accent);line-height:1}
+.st-l{font-size:.78rem;color:var(--text-secondary);margin-top:.25rem}
 
-.day-header{
-  display:flex;
-  align-items:center;
-  padding:8px 14px;
-  background:#f8f7f5;
-  border-bottom:1px solid var(--border-light);
-  gap:8px;
-}
-.day-header .checkbox{
-  width:18px;height:18px;
-  border:2px solid var(--text-muted);
-  border-radius:3px;
-  flex-shrink:0;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:12px;
-  color:transparent;
-  transition:all 0.15s;
-}
-.day-card.done .checkbox{
-  border-color:var(--accent);
-  background:var(--accent);
-  color:#fff;
-}
-.day-card.done .checkbox::after{content:"✓"}
-.day-header .day-name{
-  font-weight:700;
-  font-size:0.95rem;
-}
-.day-header .day-date{
-  font-size:0.8rem;
-  color:var(--text-muted);
-}
-.day-header .day-weekday{
-  font-size:0.75rem;
-  color:var(--text-dim);
-  margin-left:4px;
-}
-.day-header .day-exam{
-  margin-left:auto;
-  padding:2px 10px;
-  background:#dc3545;
-  color:#fff;
-  border-radius:4px;
-  font-size:0.75rem;
-  font-weight:600;
-  white-space:nowrap;
-}
-.day-header .rest-badge{
-  margin-left:auto;
-  padding:2px 10px;
-  background:var(--rest);
-  color:#fff;
-  border-radius:4px;
-  font-size:0.75rem;
-  font-weight:600;
+/* ── Day Card ── */
+.wk{margin-bottom:2.8rem}
+.wk-hd{display:flex;align-items:baseline;gap:.8rem;margin-bottom:1rem;flex-wrap:wrap}
+.wk-num{font-size:1.8rem;font-weight:700;color:var(--accent);line-height:1;letter-spacing:-.03em}
+.wk-lbl{font-size:1.1rem;font-weight:600}
+.wk-range{font-size:.78rem;color:var(--text-secondary)}
+
+.day{display:grid;grid-template-columns:85px 1fr;gap:.5rem;margin-bottom:.5rem;align-items:start}
+@media(max-width:400px){.day{grid-template-columns:1fr;gap:.15rem}}
+.day-nm{font-size:.82rem;font-weight:600;padding-top:.5rem;color:var(--text);white-space:nowrap}
+.day-c{background:var(--card);backdrop-filter:blur(8px);border-radius:var(--radius-sm);padding:.5rem .75rem;border:1px solid var(--card-border);box-shadow:var(--shadow);font-size:.84rem;line-height:1.5}
+
+/* Task row */
+.tr{display:flex;align-items:flex-start;gap:.5rem;padding:2px 0;cursor:pointer}
+.tr input[type=checkbox]{appearance:none;-webkit-appearance:none;width:18px;height:18px;border:2px solid #d1d5db;border-radius:5px;flex-shrink:0;margin-top:3px;cursor:pointer;position:relative;transition:all .2s}
+.tr input:checked{border-color:var(--accent);background:var(--accent)}
+.tr input:checked::after{content:'✓';position:absolute;top:-2px;left:2px;font-size:13px;color:#fff;font-weight:700}
+.tr .tt{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--accent);flex-shrink:0;padding-top:1px;min-width:3.8em}
+.tr .tx{flex:1;transition:color .3s}
+.tr .tx.d{color:#b8b8bd;text-decoration:line-through}
+.tr .tag{display:inline-block;font-size:.68rem;padding:.08rem .4rem;border-radius:4px;font-weight:500;margin-left:.35rem}
+.tag-class{background:#eef2ff;color:#4f46e5}
+.tag-exam{background:#fef2f2;color:#dc2626;font-weight:600}
+
+/* ── Subject badges ── */
+.sb{display:inline-block;font-size:.7rem;padding:.1rem .5rem;border-radius:4px;font-weight:500;margin:.08rem}
+.sb-en{background:#eef2ff;color:#4f46e5}
+.sb-mx{background:#fef2f2;color:#dc2626}
+.sb-hs{background:#f0fdf4;color:#16a34a}
+.sb-ch{background:#fff7ed;color:#c2410c}
+.sb-ma{background:#f0f5ff;color:#2563eb}
+.sb-in{background:#f5f3ff;color:#7c3aed}
+
+/* ── Progress ── */
+.prg{display:flex;align-items:center;gap:.8rem;margin-top:2rem;padding:.8rem 1rem;background:var(--card);backdrop-filter:blur(8px);border-radius:var(--radius-sm);border:1px solid var(--card-border);box-shadow:var(--shadow)}
+.prg-b{flex:1;height:5px;background:#e5e7eb;border-radius:3px;overflow:hidden}
+.prg-f{height:100%;background:linear-gradient(90deg,var(--accent-light),var(--accent));border-radius:3px;width:0%;transition:width .5s ease}
+.prg-t{font-size:.78rem;color:var(--text-secondary);font-weight:500;white-space:nowrap}
+
+/* ── Shift note ── */
+.shift-note{background:var(--card);backdrop-filter:blur(8px);border-radius:var(--radius-sm);padding:1rem 1.2rem;margin-top:1.5rem;border:1px solid var(--card-border);font-size:.85rem;color:var(--text-secondary);line-height:1.6}
+.shift-note strong{color:var(--text)}
+
+/* ── Footer ── */
+footer{text-align:center;padding:3rem 1rem;color:var(--text-secondary);font-size:.82rem;border-top:1px solid rgba(0,0,0,.06)}
+
+/* ── Mobile fine-tune ── */
+@media(max-width:480px){
+  section{padding:2.5rem 0}
+  .hero{min-height:60vh;padding:2rem 1rem}
+  .tbl td{padding:.55rem .7rem;font-size:.82rem}
+  .day-c{padding:.4rem .65rem}
+  .tr input[type=checkbox]{width:20px;height:20px}
 }
 
-.day-body{
-  padding:10px 14px 12px;
-}
-.task-list{list-style:none}
-.task-item{
-  display:flex;
-  align-items:flex-start;
-  gap:8px;
-  padding:5px 0;
-  font-size:0.88rem;
-  border-bottom:1px dashed var(--border-light);
-}
-.task-item:last-child{border-bottom:none}
-.task-item .task-check{
-  width:16px;height:16px;
-  border:2px solid #ccc;
-  border-radius:3px;
-  flex-shrink:0;
-  margin-top:2px;
-  cursor:pointer;
-  transition:all 0.15s;
-}
-.task-item .task-check.done{
-  border-color:var(--accent);
-  background:var(--accent);
-  position:relative;
-}
-.task-item .task-check.done::after{
-  content:"✓";
-  color:#fff;
-  font-size:11px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  line-height:1;
-}
-.task-item .task-text{flex:1;line-height:1.5}
-.task-item .task-text.s-cross{text-decoration:line-through;color:var(--text-muted)}
-
-/* 学科标签 */
-.tag{
-  display:inline-block;
-  padding:1px 8px;
-  border-radius:4px;
-  font-size:0.75rem;
-  font-weight:600;
-  margin-right:4px;
-  white-space:nowrap;
-}
-.tag-analytical{background:var(--analytical-bg);color:var(--analytical)}
-.tag-inorganic{background:var(--inorganic-bg);color:var(--inorganic)}
-.tag-math{background:var(--math-bg);color:var(--math)}
-.tag-english{background:var(--english-bg);color:var(--english)}
-.tag-marxism{background:var(--marxism-bg);color:var(--marxism)}
-.tag-history{background:var(--history-bg);color:var(--history)}
-.tag-rest{background:var(--rest-bg);color:var(--rest)}
-.tag-exam{background:#dc3545;color:#fff}
-.tag-star{background:#ffc107;color:#856404}
-
-/* ═══════════════════════════════════════════
-   学科优先级说明
-   ═══════════════════════════════════════════ */
-.priority-box{
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:12px 16px;
-  margin-bottom:16px;
-  font-size:0.82rem;
-}
-.priority-box h4{
-  font-size:0.9rem;
-  font-weight:600;
-  margin-bottom:6px;
-}
-.priority-box ol{
-  padding-left:18px;
-  color:var(--text-muted);
-}
-.priority-box ol li{margin:2px 0}
-
-/* ═══════════════════════════════════════════
-   分页（打印用）
-   ═══════════════════════════════════════════ */
-.page-break{page-break-before:always;break-before:page}
-
-/* ═══════════════════════════════════════════
-   短期计划表：简洁版
-   ═══════════════════════════════════════════ */
-.short-plan .day-card .day-body{padding:8px 14px 10px}
-.short-plan .task-item{font-size:0.85rem;padding:4px 0}
-
-/* ═══════════════════════════════════════════
-   打印机设置 (A4)
-   ═══════════════════════════════════════════ */
+/* ── Print ── */
 @media print{
-  @page{
-    size:A4;
-    margin:12mm 14mm;
-  }
-  body{background:#fff;font-size:11px;color:#000}
-  .container{max-width:none;padding:0}
-  .header{padding:16px 0 12px;margin-bottom:14px}
-  .header h1{font-size:1.4rem}
-  .section-title{font-size:1rem;padding:6px 12px}
-  .day-card{border-color:#ccc;box-shadow:none}
-  .day-card:hover{box-shadow:none}
-  .day-header{background:#f5f5f5;padding:5px 10px}
-  .day-body{padding:6px 10px 8px}
-  .task-item{font-size:0.78rem;padding:3px 0}
-  .legend,.priority-box,.exam-banner{font-size:0.75rem}
-  .day-header .day-name{font-size:0.85rem}
-  .tag{font-size:0.65rem;padding:0 6px}
-  .page-break{page-break-before:always;break-before:page}
-  .checkbox,.task-check{print-color-adjust:exact;-webkit-print-color-adjust:exact}
-  .section-title,.tag,.day-header .day-exam,.day-header .rest-badge{print-color-adjust:exact;-webkit-print-color-adjust:exact}
-  .exam-banner,.exam-tag,.legend-dot{print-color-adjust:exact;-webkit-print-color-adjust:exact}
-}
-
-/* ═══════════════════════════════════════════
-   手机适配
-   ═══════════════════════════════════════════ */
-@media(max-width:640px){
-  html{font-size:13px}
-  .container{padding:12px 10px}
-  .header{padding:20px 0 14px}
-  .header h1{font-size:1.4rem;letter-spacing:2px}
-  .section-title{font-size:1.05rem;padding:8px 12px}
-  .day-header{padding:7px 10px;flex-wrap:wrap}
-  .day-header .day-exam,.day-header .rest-badge{font-size:0.7rem;padding:1px 8px}
-  .day-body{padding:8px 10px}
-  .task-item{font-size:0.85rem}
-  .legend{gap:4px 10px;font-size:0.75rem}
-  .priority-box{font-size:0.78rem}
-  .exam-banner .exam-list{gap:3px 8px}
-}
-@media(max-width:400px){
-  html{font-size:12px}
-  .container{padding:8px 6px}
-  .day-header .day-date{font-size:0.7rem}
-  .task-item{font-size:0.8rem}
+  body{background:#fff;color:#000}
+  .hero{min-height:auto;padding:1rem}
+  .rv{opacity:1!important;transform:none!important}
+  .day-c,.cd-c,.st-c,.tbl td,.prg{background:#fff;box-shadow:none;border:1px solid #ddd;backdrop-filter:none}
+  .scroll-hint{display:none}
 }
 </style>
 </head>
 <body>
 
-<div class="container">
+<!-- ═══ Hero ═══ -->
+<section class="hero">
+  <p class="hero-sub rv">2025–2026 · 第二学期</p>
+  <h1 class="hero-h1 rv rv-1">期末复习<em>计划</em></h1>
+  <p class="hero-desc rv rv-2">6 门考试 · 21 天 · 从今天开始</p>
+  <div class="scroll-hint rv rv-3" style="display:block;margin:3rem auto 0"></div>
+</section>
 
-<!-- ════════════════ HEADER ════════════════ -->
-<div class="header">
-  <h1>📚 期末复习计划表</h1>
-  <div class="sub">2025 年春季学期 · 考试冲刺</div>
-  <div class="badge">打印版 · 完成即勾 ✓</div>
-</div>
-
-<!-- ════════════════ 考试日历 ════════════════ -->
-<div class="exam-banner">
-  <strong>📅 考试日历</strong>
-  <div class="exam-list">
-    <span class="exam-tag" style="background:#edf9f0;color:#198754">7/06 · 英语</span>
-    <span class="exam-tag" style="background:#fef6ec;color:#e67e22">7/07 9-11 · 马原</span>
-    <span class="exam-tag" style="background:#eef3f9;color:#4a6fa5">7/07 14:30-16:30 · 史纲</span>
-    <span class="exam-tag" style="background:#fef0f0;color:#dc3545">7/08 14:30-16:30 · 分析化学</span>
-    <span class="exam-tag" style="background:#f3eefb;color:#6f42c1">7/09 9-11 · 高数</span>
-    <span class="exam-tag" style="background:#eef4ff;color:#0d6efd">7/10 9-11 · 无机化学</span>
+<!-- ═══ Countdown + Overview ═══ -->
+<section>
+<div class="w">
+  <p class="lbl rv">倒计时</p>
+  <div class="cd-grid rv rv-1">
+    <div class="cd-c"><div class="cd-n" id="cd-english">—</div><div class="cd-l">英语</div></div>
+    <div class="cd-c"><div class="cd-n" id="cd-marx">—</div><div class="cd-l">马原</div></div>
+    <div class="cd-c"><div class="cd-n" id="cd-history">—</div><div class="cd-l">近史纲</div></div>
+    <div class="cd-c"><div class="cd-n" id="cd-chem">—</div><div class="cd-l">分析化学</div></div>
+    <div class="cd-c"><div class="cd-n" id="cd-math">—</div><div class="cd-l">高数</div></div>
+    <div class="cd-c"><div class="cd-n" id="cd-inorg">—</div><div class="cd-l">无机化学</div></div>
   </div>
 </div>
+</section>
 
-<!-- ════════════════ 优先级 ════════════════ -->
-<div class="priority-box">
-  <h4>🎯 复习优先级（从重到轻）</h4>
-  <ol>
-    <li><strong style="color:#dc3545">分析化学</strong> — 几章没搞懂，公式多，重点攻克</li>
-    <li><strong style="color:#0d6efd">无机化学</strong> — 内容最多但有老师明确考题提醒</li>
-    <li><strong style="color:#6f42c1">高等数学</strong> — 上学期教训，知识点需重新拾回</li>
-    <li><strong style="color:#198754">英语</strong> — 材料分散在 WeLearn/U校园/教材</li>
-    <li><strong style="color:#e67e22">马克思主义基本原理</strong> — 经济部分生疏需重点补足</li>
-    <li><strong style="color:#4a6fa5">中国近现代史纲要</strong> — 正常复习即可</li>
-  </ol>
-</div>
-
-<div class="legend">
-  <span class="legend-item"><span class="legend-dot" style="background:var(--analytical)"></span>分析化学</span>
-  <span class="legend-item"><span class="legend-dot" style="background:var(--inorganic)"></span>无机化学</span>
-  <span class="legend-item"><span class="legend-dot" style="background:var(--math)"></span>高等数学</span>
-  <span class="legend-item"><span class="legend-dot" style="background:var(--english)"></span>英语</span>
-  <span class="legend-item"><span class="legend-dot" style="background:var(--marxism)"></span>马原</span>
-  <span class="legend-item"><span class="legend-dot" style="background:var(--history)"></span>史纲</span>
-  <span class="legend-item"><span class="legend-dot" style="background:var(--rest)"></span>休息</span>
-  <span class="legend-item"><span class="legend-dot" style="background:#dc3545"></span>★ 考试日</span>
-</div>
-
-<!-- ═══════════════════════════════════════════
-     第一部分：短期计划表
-     ═══════════════════════════════════════════ -->
-<div class="section">
-  <div class="section-title short">
-    📋 短期计划表 <span class="date-range">6月16日（周二）— 6月21日（周日）</span>
-  </div>
-
-  <div class="plan-grid short-plan">
-
-    <!-- 周二 6/16 -->
-    <div class="day-card" data-day="2025-06-16">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周二</span>
-        <span class="day-date">6/16</span>
-        <span class="day-weekday">今天</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text">📝 下午：完成长期期末复习计划表（即本计划表）</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 周三 6/17 -->
-    <div class="day-card" data-day="2025-06-17">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周三</span>
-        <span class="day-date">6/17</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-math">高数</span>完成高数最后一次作业</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 周四 6/18 -->
-    <div class="day-card" data-day="2025-06-18">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周四</span>
-        <span class="day-date">6/18</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-marxism">马原</span><span class="tag tag-history">史纲</span>整理马原 + 史纲选择题题库</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 周五 6/19 端午 -->
-    <div class="day-card" data-day="2025-06-19">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周五</span>
-        <span class="day-date">6/19</span>
-        <span class="rest-badge">🎉 端午节 · 休息</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text">🌿 放松休息，吃粽子 🫘</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 周六 6/20 -->
-    <div class="day-card" data-day="2025-06-20">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周六</span>
-        <span class="day-date">6/20</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-english">英语</span>完成英语所有网上作业</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 周日 6/21 -->
-    <div class="day-card" data-day="2025-06-21">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周日</span>
-        <span class="day-date">6/21</span>
-        <span class="day-exam" style="background:var(--accent);font-size:0.7rem">🚀 启动</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text">开始全面进入复习阶段 → 见下方长期计划表</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
+<!-- ═══ Exam Schedule ═══ -->
+<section>
+<div class="w">
+  <p class="lbl rv">考场时刻表</p>
+  <h2 class="rv">6 门考试 · 5 天考完</h2>
+  <p class="desc rv rv-1">按考试时间排列，圆点颜色代表优先级。</p>
+  <div class="rv rv-2">
+    <table class="tbl">
+      <thead><tr><th>优先级</th><th>科目</th><th>日期</th><th>时间</th></tr></thead>
+      <tbody>
+        <tr><td><span class="prio-dot" style="background:#c2410c"></span></td><td class="nm">分析化学</td><td class="dt">7 月 8 日 · 周三</td><td class="tm">14:30 – 16:30</td></tr>
+        <tr><td><span class="prio-dot" style="background:#7c3aed"></span></td><td class="nm">无机化学</td><td class="dt">7 月 10 日 · 周五</td><td class="tm">09:00 – 11:00</td></tr>
+        <tr><td><span class="prio-dot" style="background:#2563eb"></span></td><td class="nm">高等数学</td><td class="dt">7 月 9 日 · 周四</td><td class="tm">09:00 – 11:00</td></tr>
+        <tr><td><span class="prio-dot" style="background:#4f46e5"></span></td><td class="nm">英语</td><td class="dt">7 月 6 日 · 周一</td><td class="tm">—</td></tr>
+        <tr><td><span class="prio-dot" style="background:#dc2626"></span></td><td class="nm">马克思主义基本原理</td><td class="dt">7 月 7 日 · 周二</td><td class="tm">09:00 – 11:00</td></tr>
+        <tr><td><span class="prio-dot" style="background:#16a34a"></span></td><td class="nm">中国近现代史纲要</td><td class="dt">7 月 7 日 · 周二</td><td class="tm">14:30 – 16:30</td></tr>
+      </tbody>
+    </table>
   </div>
 </div>
+</section>
 
-<!-- ════════════════ 分页 ════════════════ -->
-<div class="page-break"></div>
-
-<!-- ═══════════════════════════════════════════
-     第二部分：长期期末复习计划表
-     ═══════════════════════════════════════════ -->
-<div class="section">
-  <div class="section-title long">
-    📋 长期期末复习计划表 <span class="date-range">6月21日（周日）— 7月10日（周五）</span>
-  </div>
-
-  <div class="plan-grid">
-
-    <!-- ════════ Phase 1: 基础构建 6/21-6/26 ════════ -->
-    <!-- 6/21 周日 -->
-    <div class="day-card" data-day="2025-06-21">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周日</span>
-        <span class="day-date">6/21</span>
-        <span class="day-weekday">D-1</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-analytical">分析</span>第1-2章基础回顾，搞清整体框架</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-inorganic">无机</span>根据老师考题提示，整理复习重点清单</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text">📐 制定个人复习节奏，规划每日时间分配</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 6/22 周一 -->
-    <div class="day-card" data-day="2025-06-22">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周一</span>
-        <span class="day-date">6/22</span>
-        <span class="day-weekday">D-2</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-analytical">分析</span>第3-4章精读 + 公式标注</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-inorganic">无机</span>基础概念通览，标记不理解的部分</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-math">高数</span>翻教材目录，回顾本学期所学章节大纲</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 6/23 周二 -->
-    <div class="day-card" data-day="2025-06-23">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周二</span>
-        <span class="day-date">6/23</span>
-        <span class="day-weekday">D-3</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-analytical">分析</span>第5-6章精读 + 例题演练</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-inorganic">无机</span>重点章节内容梳理（上）</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-math">高数</span>基础概念回顾：极限、连续</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 6/24 周三 -->
-    <div class="day-card" data-day="2025-06-24">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周三</span>
-        <span class="day-date">6/24</span>
-        <span class="day-weekday">D-4</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-analytical">分析</span>第7-8章（难点章节）精读 + 标记卡壳点</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-inorganic">无机</span>重点章节内容梳理（下）</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-english">英语</span>登录 WeLearn / U校园，整理材料和待办清单</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 6/25 周四 -->
-    <div class="day-card" data-day="2025-06-25">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周四</span>
-        <span class="day-date">6/25</span>
-        <span class="day-weekday">D-5</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-analytical">分析</span>全章公式汇总 + 课后习题选做</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-inorganic">无机</span>关键反应式与概念强化记忆</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-math">高数</span>导数与微分概念 + 基础计算练习</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 6/26 周五 -->
-    <div class="day-card" data-day="2025-06-26">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周五</span>
-        <span class="day-date">6/26</span>
-        <span class="day-weekday">D-6</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-analytical">分析</span>难点章节回炉重看，攻克卡壳点</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-inorganic">无机</span>根据老师提示做针对性练习</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-marxism">马原</span>开始整理题库，重点标注经济部分章节</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- ════════ Phase 2: 深入巩固 6/27-7/1 ════════ -->
-    <!-- 6/27 周六 -->
-    <div class="day-card" data-day="2025-06-27">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周六</span>
-        <span class="day-date">6/27</span>
-        <span class="day-weekday">D-7</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-analytical">分析</span>全章内容串讲回顾 + 做一套综合题</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-inorganic">无机</span>老师提示重点区域强化复习</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-math">高数</span>中值定理 + 导数应用</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 6/28 周日 -->
-    <div class="day-card" data-day="2025-06-28">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周日</span>
-        <span class="day-date">6/28</span>
-        <span class="day-weekday">D-8</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-analytical">分析</span>错题重做 + 公式默写</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-inorganic">无机</span>背诵性内容 + 重要公式集中记忆</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-english">英语</span>WeLearn 平台任务推进</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 6/29 周一 -->
-    <div class="day-card" data-day="2025-06-29">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周一</span>
-        <span class="day-date">6/29</span>
-        <span class="day-weekday">D-9</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-analytical">分析</span>薄弱环节专项突破（标记的卡壳点）</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-math">高数</span>不定积分 + 定积分计算练习</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-history">史纲</span>时间线梳理：近代史大事记</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 6/30 周二 -->
-    <div class="day-card" data-day="2025-06-30">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周二</span>
-        <span class="day-date">6/30</span>
-        <span class="day-weekday">D-10</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-analytical">分析</span>综合模拟测试，检验掌握程度</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-inorganic">无机</span>反应方程式 + 计算题型专项练习</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-marxism">马原</span>题库刷题（重点：经济部分深钻）</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 7/1 周三 -->
-    <div class="day-card" data-day="2025-07-01">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周三</span>
-        <span class="day-date">7/1</span>
-        <span class="day-weekday">D-11</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-analytical">分析</span>所有公式汇总成表 + 最后一遍全书快速翻阅</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-inorganic">无机</span>老师提示内容最后一次系统回顾</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-math">高数</span>微分方程 + 空间解析几何</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
+<!-- ═══ Stats ═══ -->
+<section>
+<div class="w">
+  <p class="lbl rv">概览</p>
+  <div class="st-grid rv rv-1">
+    <div class="st-c"><div class="st-n">6</div><div class="st-l">门考试</div></div>
+    <div class="st-c"><div class="st-n">21</div><div class="st-l">天复习时间</div></div>
+    <div class="st-c"><div class="st-n">6/21</div><div class="st-l">全面开始</div></div>
+    <div class="st-c"><div class="st-n">753</div><div class="st-l">题库题目</div></div>
   </div>
 </div>
+</section>
 
-<!-- ════════════════ 分页 ════════════════ -->
-<div class="page-break"></div>
-
-<!-- ═══════════════════════════════════════════
-     第二部分续：长期计划 - 后半段
-     ═══════════════════════════════════════════ -->
-<div class="section">
-  <div class="section-title long" style="background:#1e3a5f">
-    📋 长期期末复习计划表（续）<span class="date-range">7月2日（周三）— 7月10日（周五）</span>
-  </div>
-
-  <div class="plan-grid">
-
-    <!-- ════════ Phase 3: 冲刺巩固 7/2-7/5 ════════ -->
-    <!-- 7/2 周四 -->
-    <div class="day-card" data-day="2025-07-02">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周四</span>
-        <span class="day-date">7/2</span>
-        <span class="day-weekday">D-12</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-analytical">分析</span>错题回顾 + 薄弱知识点最终解决</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-inorganic">无机</span>全面通览一遍，标注二级重点</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-english">英语</span>U校园任务完成 + 教材单元复习</span>
-          </li>
-        </ul>
-      </div>
+<!-- ═══ Short-term Plan ═══ -->
+<section>
+<div class="w">
+  <p class="lbl rv">第一阶段</p>
+  <h2 class="rv">短期冲刺 · 6/16 – 6/21</h2>
+  <p class="desc rv rv-1">今天 6/17 周三，先清掉最后的杂项任务。</p>
+  <div class="rv rv-2" style="background:var(--card);backdrop-filter:blur(8px);border-radius:var(--radius);padding:1.2rem 1.5rem;border:1px solid var(--card-border);box-shadow:var(--shadow)">
+    <div style="display:grid;gap:.5rem;font-size:.88rem">
+      <div><span class="mono" style="color:var(--text-secondary);font-size:.8rem">6/16 周二</span> — 制定长期计划 ✓</div>
+      <div><span class="mono" style="color:var(--accent);font-size:.8rem">6/17 周三</span> — 高数最后一次作业</div>
+      <div><span class="mono" style="color:var(--text-secondary);font-size:.8rem">6/18 周四</span> — 整理马原 + 近史纲题库</div>
+      <div><span class="mono" style="color:var(--text-secondary);font-size:.8rem">6/19 周五</span> — 端午节 · 休息</div>
+      <div><span class="mono" style="color:var(--text-secondary);font-size:.8rem">6/20 周六</span> — 英语网上作业</div>
+      <div><span class="mono" style="color:var(--accent);font-weight:600;font-size:.8rem">6/21 周日</span> — 全面复习开始</div>
     </div>
-
-    <!-- 7/3 周五 -->
-    <div class="day-card" data-day="2025-07-03">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周五</span>
-        <span class="day-date">7/3</span>
-        <span class="day-weekday">D-13</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-inorganic">无机</span>最终全面复习 + 薄弱点强化</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-math">高数</span>重难点题型练习 + 真题手感</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-marxism">马原</span>题库刷第二遍，经济部分反复看</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 7/4 周六 -->
-    <div class="day-card" data-day="2025-07-04">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周六</span>
-        <span class="day-date">7/4</span>
-        <span class="day-weekday">D-14</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-english">英语</span>三平台综合复习 + 作文模板整理</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-history">史纲</span>关键事件 + 意义影响记忆</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text">🔍 检查各科薄弱点，查漏补缺</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 7/5 周日 -->
-    <div class="day-card" data-day="2025-07-05">
-      <div class="day-header">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周日</span>
-        <span class="day-date">7/5</span>
-        <span class="day-weekday">D-15</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-english">英语</span>听力练习 + 作文冲刺 + 单词快速过</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-marxism">马原</span>题库最后过一遍 + 经济部分理清逻辑</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-history">史纲</span>最后梳理一遍时间线</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- ════════ Phase 4: 考试周 7/6-7/10 ════════ -->
-    <!-- 7/6 周一 — 英语考试 -->
-    <div class="day-card" data-day="2025-07-06" style="border-left:3px solid var(--english)">
-      <div class="day-header" style="background:#edf9f0">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周一</span>
-        <span class="day-date">7/6</span>
-        <span class="day-exam">★ 英语考试</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-english">英语</span>上午：最后翻看笔记、作文模板、单词</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text">📝 <strong>下午：英语考试</strong></span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-marxism">马原</span>晚上：快速过一遍题库，准备明天马原</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 7/7 周二 — 马原(AM) + 史纲(PM) -->
-    <div class="day-card" data-day="2025-07-07" style="border-left:3px solid var(--marxism)">
-      <div class="day-header" style="background:#fef6ec">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周二</span>
-        <span class="day-date">7/7</span>
-        <span class="day-exam">★ 双考日</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-marxism">马原</span>⏰ <strong>9:00—11:00 马克思主义基本原理考试</strong></span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text">🍚 中午休息 + 快速翻看史纲</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-history">史纲</span>⏰ <strong>14:30—16:30 中国近现代史纲要考试</strong></span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 7/8 周三 — 分析化学(PM) -->
-    <div class="day-card" data-day="2025-07-08" style="border-left:3px solid var(--analytical)">
-      <div class="day-header" style="background:#fef0f0">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周三</span>
-        <span class="day-date">7/8</span>
-        <span class="day-exam">★ 分析化学</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-analytical">分析</span>上午：公式表最后看一遍 + 易错点提醒</span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-analytical">分析</span>⏰ <strong>14:30—16:30 分析化学考试</strong></span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 7/9 周四 — 高数(AM) -->
-    <div class="day-card" data-day="2025-07-09" style="border-left:3px solid var(--math)">
-      <div class="day-header" style="background:#f3eefb">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周四</span>
-        <span class="day-date">7/9</span>
-        <span class="day-exam">★ 高等数学</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-math">高数</span>⏰ <strong>9:00—11:00 高等数学考试</strong></span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-inorganic">无机</span>下午：无机化学最后冲刺复习</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 7/10 周五 — 无机(AM) → 解放 -->
-    <div class="day-card" data-day="2025-07-10" style="border-left:3px solid var(--inorganic)">
-      <div class="day-header" style="background:#eef4ff">
-        <div class="checkbox" onclick="this.closest('.day-card').classList.toggle('done')"></div>
-        <span class="day-name">周五</span>
-        <span class="day-date">7/10</span>
-        <span class="day-exam">★ 无机化学</span>
-      </div>
-      <div class="day-body">
-        <ul class="task-list">
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text"><span class="tag tag-inorganic">无机</span>⏰ <strong>9:00—11:00 无机化学考试</strong></span>
-          </li>
-          <li class="task-item">
-            <div class="task-check" onclick="this.classList.toggle('done');this.nextElementSibling.classList.toggle('s-cross')"></div>
-            <span class="task-text">🎉 <strong>考试全部结束！暑假开始 🏖️</strong></span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
   </div>
 </div>
+</section>
 
-<!-- ════════════════ 页脚 ════════════════ -->
-<div style="text-align:center;padding:30px 0 16px;color:var(--text-dim);font-size:0.78rem;border-top:1px solid var(--border-light);margin-top:10px">
-  每天完成计划后点击 □ 勾选 ✓ · 打印版: 浏览器 → 打印 → A4<br>
-  阅见 · 期末复习计划 · 2025 夏
+<!-- ═══ Long-term Weekly Plan ═══ -->
+<section style="background:linear-gradient(180deg,transparent,rgba(184,145,110,.06),transparent)">
+<div class="w">
+  <p class="lbl rv">第二阶段</p>
+  <h2 class="rv">逐周计划</h2>
+  <p class="desc rv rv-1">6/21 → 7/10，每天排好时间段。完成的任务勾掉它。</p>
+
+  <!-- Week 1: 6/21-6/27 -->
+  <div class="wk rv">
+    <div class="wk-hd"><span class="wk-num">1</span><span class="wk-lbl">第一周</span><span class="wk-range">6/21 – 6/27</span></div>
+    <p style="font-size:.8rem;color:var(--text-secondary);margin:-.5rem 0 1rem">重点：马原 + 近史纲一轮扫完，为分析化学让路</p>
+
+    <div class="day">
+      <div class="day-nm">6/21 周日</div>
+      <div class="day-c" data-d="6-21">
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">英语高频词 50 个</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">马原 · 导论 + 第一章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">制定本周每日计划</span></div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-nm">6/22 周一</div>
+      <div class="day-c" data-d="6-22">
+        <div class="tr"><input type="checkbox"><span class="tt">10:10–12</span><span class="tx">中共党史课</span><span class="tag tag-class">有课</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">马原 · 第二章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21:30</span><span class="tx">近史纲 · 第一章</span></div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-nm">6/23 周二</div>
+      <div class="day-c" data-d="6-23">
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">马原 · 第三章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">近史纲 · 第二章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">英语阅读一篇</span></div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-nm">6/24 周三</div>
+      <div class="day-c" data-d="6-24">
+        <div class="tr"><input type="checkbox"><span class="tt">10:10–12</span><span class="tx">中共党史课</span><span class="tag tag-class">有课</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">马原 · 第四章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21:30</span><span class="tx">近史纲 · 第三章</span></div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-nm">6/25 周四</div>
+      <div class="day-c" data-d="6-25">
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">马原 · 第五章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">近史纲 · 第四章</span></div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-nm">6/26 周五</div>
+      <div class="day-c" data-d="6-26">
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">马原 · 第六章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">近史纲 · 第五章</span></div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-nm">6/27 周六</div>
+      <div class="day-c" data-d="6-27">
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">马原 · 第七章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">近史纲 · 第六章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">周回顾 + 错题整理</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Week 2: 6/28-7/4 - Focus shifts to chem + math -->
+  <div class="wk rv">
+    <div class="wk-hd"><span class="wk-num">2</span><span class="wk-lbl">第二周</span><span class="wk-range">6/28 – 7/4</span></div>
+    <p style="font-size:.8rem;color:var(--text-secondary);margin:-.5rem 0 1rem">重点攻分析化学 + 无机化学，次要是高数和英语</p>
+
+    <div class="day">
+      <div class="day-nm">6/28 周日</div>
+      <div class="day-c" data-d="6-28">
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">近史纲 · 第七章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">马原错题回顾</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">分析化学 · 第 1 章公式梳理</span></div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-nm">6/29 周一</div>
+      <div class="day-c" data-d="6-29">
+        <div class="tr"><input type="checkbox"><span class="tt">10:10–12</span><span class="tx">中共党史课</span><span class="tag tag-class">有课</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">近史纲 · 第八章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21:30</span><span class="tx">分析化学 · 第 2–3 章</span></div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-nm">6/30 周二</div>
+      <div class="day-c" data-d="6-30">
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">近史纲 · 第九章 + 第十章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–17</span><span class="tx">分析化学 · 第 4–5 章重点</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">马原全书串讲</span></div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-nm">7/1 周三</div>
+      <div class="day-c" data-d="7-1">
+        <div class="tr"><input type="checkbox"><span class="tt">10:10–12</span><span class="tx">中共党史课</span><span class="tag tag-class">有课</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–17</span><span class="tx">分析化学 · 第 6–7 章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">英语作文模板整理</span></div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-nm">7/2 周四</div>
+      <div class="day-c" data-d="7-2">
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">分析化学 · 全章串讲 + 公式记忆</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">无机化学 · 第 1–3 章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">高数 · 极限专题</span></div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-nm">7/3 周五</div>
+      <div class="day-c" data-d="7-3">
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">无机化学 · 第 4–6 章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">高数 · 导数 + 微分方程</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21:30</span><span class="tx">分析化学 · 真题练习</span></div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-nm">7/4 周六</div>
+      <div class="day-c" data-d="7-4">
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">无机化学 · 第 7–9 章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">高数 · 积分专题 + 错题</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">英语听力 + 阅读一套</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exam Week: 7/5-7/10 -->
+  <div class="wk rv">
+    <div class="wk-hd"><span class="wk-num">E</span><span class="wk-lbl">考试周</span><span class="wk-range">7/5 – 7/10</span></div>
+
+    <div class="day">
+      <div class="day-nm">7/5 周日</div>
+      <div class="day-c" data-d="7-5">
+        <div class="tr"><input type="checkbox"><span class="tt">10–12</span><span class="tx">英语 · 作文模板背诵 + 词汇</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">英语 · 真题一套</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">分析化学 · 公式快速过一遍</span></div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-nm">7/6 周一</div>
+      <div class="day-c" data-d="7-6">
+        <div class="tr"><input type="checkbox"><span class="tt">全天</span><span class="tx exam-hl">英语考试</span><span class="tag tag-exam">考试</span></div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-nm">7/7 周二</div>
+      <div class="day-c" data-d="7-7">
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx exam-hl">马克思主义基本原理</span><span class="tag tag-exam">考试</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14:30–16:30</span><span class="tx exam-hl">中国近现代史纲要</span><span class="tag tag-exam">考试</span></div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-nm">7/8 周三</div>
+      <div class="day-c" data-d="7-8">
+        <div class="tr"><input type="checkbox"><span class="tt">14:30–16:30</span><span class="tx exam-hl">分析化学</span><span class="tag tag-exam">考试</span></div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-nm">7/9 周四</div>
+      <div class="day-c" data-d="7-9">
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx exam-hl">高等数学</span><span class="tag tag-exam">考试</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–17</span><span class="tx">无机化学 · 最后冲刺复习</span></div>
+      </div>
+    </div>
+    <div class="day">
+      <div class="day-nm">7/10 周五</div>
+      <div class="day-c" data-d="7-10">
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx exam-hl">无机化学</span><span class="tag tag-exam">考试</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt" style="visibility:hidden">—</span><span class="tx" style="color:var(--accent);font-weight:600">暑假开始 🎉</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Course conflict note -->
+  <div class="shift-note rv">
+    <strong>课程冲突说明</strong><br>
+    第 17–18 周的周一和周三 10:10–12:00 有<strong>中共党史</strong>课，已标注「有课」标签。复习任务均安排在课程之外。
+  </div>
+
+  <!-- Progress bar -->
+  <div class="prg rv">
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="none" style="flex-shrink:0">
+      <circle cx="10" cy="10" r="8" stroke="#e5e7eb" stroke-width="2"/>
+      <circle cx="10" cy="10" r="8" stroke="var(--accent)" stroke-width="2" stroke-dasharray="50.27" stroke-dashoffset="50.27" id="p-ring" style="transform:rotate(-90deg);transform-origin:center"/>
+    </svg>
+    <div class="prg-b"><div class="prg-f" id="p-fill"></div></div>
+    <span class="prg-t" id="p-text">0 / 0</span>
+  </div>
 </div>
+</section>
 
-</div><!-- /.container -->
+<footer>
+  <p>每门都过 · 暑假见</p>
+</footer>
 
 <script>
-// 完成日期自动保存到 localStorage（刷新不丢失）
-document.querySelectorAll('.day-card').forEach(card => {
-  const key = 'exam-' + card.dataset.day;
-  if(localStorage.getItem(key) === 'done'){
-    card.classList.add('done');
+// ── Countdown ──
+(function(){
+  const n=new Date();
+  const exams=[
+    {id:'cd-english',d:new Date(2026,6,6)},
+    {id:'cd-marx',d:new Date(2026,6,7)},
+    {id:'cd-history',d:new Date(2026,6,7)},
+    {id:'cd-chem',d:new Date(2026,6,8)},
+    {id:'cd-math',d:new Date(2026,6,9)},
+    {id:'cd-inorg',d:new Date(2026,6,10)},
+  ];
+  for(const e of exams){
+    const diff=Math.max(0,Math.ceil((e.d-n)/864e5));
+    document.getElementById(e.id).textContent=diff+'天';
   }
-  // 监听 checkbox 点击
-  card.querySelector('.checkbox').addEventListener('click', function(){
-    const isDone = card.classList.contains('done');
-    localStorage.setItem(key, isDone ? 'done' : '');
-  });
-  // 监听子任务勾选
-  card.querySelectorAll('.task-check').forEach(cb => {
-    const subKey = key + '-' + Array.from(card.querySelectorAll('.task-check')).indexOf(cb);
-    if(localStorage.getItem(subKey) === 'done'){
-      cb.classList.add('done');
-      cb.nextElementSibling.classList.add('s-cross');
-    }
-    cb.addEventListener('click', function(){
-      const isSubDone = cb.classList.contains('done');
-      localStorage.setItem(subKey, isSubDone ? 'done' : '');
-    });
-  });
-});
-</script>
+})();
 
+// ── Scroll Reveal ──
+const ro=new IntersectionObserver(e=>{for(const x of e)if(x.isIntersecting)x.target.classList.add('v')},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
+
+// ── Checkbox + Progress ──
+function upd(){
+  const all=document.querySelectorAll('.tr');
+  const done=document.querySelectorAll('.tr input:checked');
+  const t=all.length,c=done.length;
+  all.forEach(r=>{const tx=r.querySelector('.tx');if(tx)tx.classList.toggle('d',r.querySelector('input').checked)});
+  const pct=t?Math.round(c/t*100):0;
+  document.getElementById('p-fill').style.width=pct+'%';
+  document.getElementById('p-text').textContent=c+'/'+t;
+  const ring=document.getElementById('p-ring');
+  if(ring){const circ=2*Math.PI*8;ring.style.strokeDasharray=circ;ring.style.strokeDashoffset=circ*(1-c/t)}
+}
+document.querySelectorAll('.tr input').forEach(cb=>{
+  const key=cb.closest('.day-c').dataset.d+'_'+Array.from(cb.closest('.day-c').querySelectorAll('.tr')).indexOf(cb.closest('.tr'));
+  if(localStorage.getItem(key)==='1')cb.checked=true;
+  cb.addEventListener('change',()=>{localStorage.setItem(key,cb.checked?'1':'0');upd()});
+});
+upd();
+</script>
 </body>
 </html>
