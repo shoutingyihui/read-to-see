@@ -165,7 +165,7 @@ footer{text-align:center;padding:3rem 1rem;color:var(--text-secondary);font-size
 <section class="hero">
   <p class="hero-sub rv">2025–2026 · 第二学期</p>
   <h1 class="hero-h1 rv rv-1">期末复习<em>计划</em></h1>
-  <p class="hero-desc rv rv-2">6 门考试 · 21 天 · 从今天开始</p>
+  <p class="hero-desc rv rv-2">6 门考试 · 距首考 <span id="hero-days" class="mono" style="color:var(--accent)">—</span> 天</p>
   <div class="scroll-hint rv rv-3" style="display:block;margin:3rem auto 0"></div>
 </section>
 
@@ -212,9 +212,10 @@ footer{text-align:center;padding:3rem 1rem;color:var(--text-secondary);font-size
   <p class="lbl rv">概览</p>
   <div class="st-grid rv rv-1">
     <div class="st-c"><div class="st-n">6</div><div class="st-l">门考试</div></div>
-    <div class="st-c"><div class="st-n">21</div><div class="st-l">天复习时间</div></div>
-    <div class="st-c"><div class="st-n">6/21</div><div class="st-l">全面开始</div></div>
+    <div class="st-c"><div class="st-n" id="st-to-first">—</div><div class="st-l">天到首考</div></div>
+    <div class="st-c"><div class="st-n" id="st-to-last">—</div><div class="st-l">天考完</div></div>
     <div class="st-c"><div class="st-n">753</div><div class="st-l">题库题目</div></div>
+    <div class="st-c"><div class="st-n" id="st-week">—</div><div class="st-l">当前周次</div></div>
   </div>
 </div>
 </section>
@@ -223,16 +224,16 @@ footer{text-align:center;padding:3rem 1rem;color:var(--text-secondary);font-size
 <section>
 <div class="w">
   <p class="lbl rv">第一阶段</p>
-  <h2 class="rv">短期冲刺 · 6/16 – 6/21</h2>
-  <p class="desc rv rv-1">今天 6/17 周三，先清掉最后的杂项任务。</p>
+  <h2 class="rv">冲刺预备 · 6/16 – 6/21 ✓</h2>
+  <p class="desc rv rv-1">今天 6/20 周六，杂项任务基本清完，明天全面复习启动。</p>
   <div class="rv rv-2" style="background:var(--card);backdrop-filter:blur(8px);border-radius:var(--radius);padding:1.2rem 1.5rem;border:1px solid var(--card-border);box-shadow:var(--shadow)">
     <div style="display:grid;gap:.5rem;font-size:.88rem">
-      <div><span class="mono" style="color:var(--text-secondary);font-size:.8rem">6/16 周二</span> — 制定长期计划 ✓</div>
-      <div><span class="mono" style="color:var(--accent);font-size:.8rem">6/17 周三</span> — 高数最后一次作业</div>
-      <div><span class="mono" style="color:var(--text-secondary);font-size:.8rem">6/18 周四</span> — 整理马原 + 近史纲题库</div>
-      <div><span class="mono" style="color:var(--text-secondary);font-size:.8rem">6/19 周五</span> — 端午节 · 休息</div>
-      <div><span class="mono" style="color:var(--text-secondary);font-size:.8rem">6/20 周六</span> — 英语网上作业</div>
-      <div><span class="mono" style="color:var(--accent);font-weight:600;font-size:.8rem">6/21 周日</span> — 全面复习开始</div>
+      <div><span class="mono" style="color:var(--text-secondary);font-size:.8rem">6/16 周二</span> — 制定长期计划 <span style="color:green">✓</span></div>
+      <div><span class="mono" style="color:var(--text-secondary);font-size:.8rem">6/17 周三</span> — 高数最后一次作业 <span style="color:green">✓</span></div>
+      <div><span class="mono" style="color:var(--text-secondary);font-size:.8rem">6/18 周四</span> — 整理马原 + 近史纲题库 <span style="color:green">✓</span></div>
+      <div><span class="mono" style="color:var(--text-secondary);font-size:.8rem">6/19 周五</span> — 端午节 · 休息 <span style="color:green">✓</span></div>
+      <div><span class="mono" style="color:var(--accent);font-weight:600;font-size:.8rem">6/20 周六 · 今天</span> — 英语网上作业</div>
+      <div><span class="mono" style="color:var(--text-secondary);font-size:.8rem">6/21 周日</span> — 全面复习开始</div>
     </div>
   </div>
 </div>
@@ -245,126 +246,138 @@ footer{text-align:center;padding:3rem 1rem;color:var(--text-secondary);font-size
   <h2 class="rv">逐周计划</h2>
   <p class="desc rv rv-1">6/21 → 7/10，每天排好时间段。完成的任务勾掉它。</p>
 
-  <!-- Week 1: 6/21-6/27 -->
+  <!-- Week 1: 6/21-6/27 → 分析化学+无机化学贯穿 -->
   <div class="wk rv">
     <div class="wk-hd"><span class="wk-num">1</span><span class="wk-lbl">第一周</span><span class="wk-range">6/21 – 6/27</span></div>
-    <p style="font-size:.8rem;color:var(--text-secondary);margin:-.5rem 0 1rem">重点：马原 + 近史纲一轮扫完，为分析化学让路</p>
+    <p style="font-size:.8rem;color:var(--text-secondary);margin:-.5rem 0 1rem">分析化学+无机化学贯穿全程，马原/近史纲加速扫完，英语稳步推进，高数逐步引入</p>
 
     <div class="day">
       <div class="day-nm">6/21 周日</div>
       <div class="day-c" data-d="6-21">
-        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">英语高频词 50 个</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">马原 · 导论 + 第一章</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">制定本周每日计划</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">马原 · 第1–3章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">近史纲 · 第1–3章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">英语 · 听力真题一套</span></div>
       </div>
     </div>
     <div class="day">
       <div class="day-nm">6/22 周一</div>
       <div class="day-c" data-d="6-22">
         <div class="tr"><input type="checkbox"><span class="tt">10:10–12</span><span class="tx">中共党史课</span><span class="tag tag-class">有课</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">马原 · 第二章</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">20–21:30</span><span class="tx">近史纲 · 第一章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">马原 · 第4–5章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">近史纲 · 第4–6章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">21–22</span><span class="tx">分析化学 · 第1章公式梳理</span></div>
       </div>
     </div>
     <div class="day">
       <div class="day-nm">6/23 周二</div>
       <div class="day-c" data-d="6-23">
-        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">马原 · 第三章</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">近史纲 · 第二章</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">英语阅读一篇</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">马原 · 第6–7章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">近史纲 · 第7–8章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">高数 · 极限专题回顾</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">21–22</span><span class="tx">无机化学 · 第1章入门</span></div>
       </div>
     </div>
     <div class="day">
       <div class="day-nm">6/24 周三</div>
       <div class="day-c" data-d="6-24">
         <div class="tr"><input type="checkbox"><span class="tt">10:10–12</span><span class="tx">中共党史课</span><span class="tag tag-class">有课</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">马原 · 第四章</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">20–21:30</span><span class="tx">近史纲 · 第三章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">近史纲 · 第9–10章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">分析化学 · 第2章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">21–22</span><span class="tx">英语 · 词汇 + 阅读</span></div>
       </div>
     </div>
     <div class="day">
       <div class="day-nm">6/25 周四</div>
       <div class="day-c" data-d="6-25">
-        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">马原 · 第五章</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">近史纲 · 第四章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">分析化学 · 第3–4章重点</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">高数 · 导数专题</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">无机化学 · 第2–3章</span></div>
       </div>
     </div>
     <div class="day">
       <div class="day-nm">6/26 周五</div>
       <div class="day-c" data-d="6-26">
-        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">马原 · 第六章</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">近史纲 · 第五章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">高数 · 微分方程</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">分析化学 · 第5章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">无机化学 · 第4章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">21–22</span><span class="tx">英语 · 听力 + 翻译</span></div>
       </div>
     </div>
     <div class="day">
       <div class="day-nm">6/27 周六</div>
       <div class="day-c" data-d="6-27">
-        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">马原 · 第七章</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">近史纲 · 第六章</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">周回顾 + 错题整理</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">高数 · 积分专题</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">分析化学 · 第6章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">无机化学 · 第5章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">21–22</span><span class="tx">英语 · 真题 + 作文</span></div>
       </div>
     </div>
   </div>
 
-  <!-- Week 2: 6/28-7/4 - Focus shifts to chem + math -->
+  <!-- Week 2: 6/28-7/4 → 核心三科攻坚 -->
   <div class="wk rv">
     <div class="wk-hd"><span class="wk-num">2</span><span class="wk-lbl">第二周</span><span class="wk-range">6/28 – 7/4</span></div>
-    <p style="font-size:.8rem;color:var(--text-secondary);margin:-.5rem 0 1rem">重点攻分析化学 + 无机化学，次要是高数和英语</p>
+    <p style="font-size:.8rem;color:var(--text-secondary);margin:-.5rem 0 1rem">分析化学 + 高数 + 无机化学三科轮动，英语适度穿插，马原/近史纲只做复习</p>
 
     <div class="day">
       <div class="day-nm">6/28 周日</div>
       <div class="day-c" data-d="6-28">
-        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">近史纲 · 第七章</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">马原错题回顾</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">分析化学 · 第 1 章公式梳理</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">分析化学 · 第4–5章重点</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">高数 · 积分专题</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">无机化学 · 第4–5章</span></div>
       </div>
     </div>
     <div class="day">
       <div class="day-nm">6/29 周一</div>
       <div class="day-c" data-d="6-29">
         <div class="tr"><input type="checkbox"><span class="tt">10:10–12</span><span class="tx">中共党史课</span><span class="tag tag-class">有课</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">近史纲 · 第八章</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">20–21:30</span><span class="tx">分析化学 · 第 2–3 章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">分析化学 · 第6–7章 + 串讲</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21:30</span><span class="tx">高数 · 级数 + 多元函数</span></div>
       </div>
     </div>
     <div class="day">
       <div class="day-nm">6/30 周二</div>
       <div class="day-c" data-d="6-30">
-        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">近史纲 · 第九章 + 第十章</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">14–17</span><span class="tx">分析化学 · 第 4–5 章重点</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">马原全书串讲</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">分析化学 · 全章串讲 + 公式记忆</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">高数 · 真题练习</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">无机化学 · 第6–7章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">21–22</span><span class="tx">英语 · 听力 + 阅读</span></div>
       </div>
     </div>
     <div class="day">
       <div class="day-nm">7/1 周三</div>
       <div class="day-c" data-d="7-1">
         <div class="tr"><input type="checkbox"><span class="tt">10:10–12</span><span class="tx">中共党史课</span><span class="tag tag-class">有课</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">14–17</span><span class="tx">分析化学 · 第 6–7 章</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">英语作文模板整理</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">分析化学 · 真题练习</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">无机化学 · 第8–9章</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">21–22</span><span class="tx">高数 · 错题整理</span></div>
       </div>
     </div>
     <div class="day">
       <div class="day-nm">7/2 周四</div>
       <div class="day-c" data-d="7-2">
-        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">分析化学 · 全章串讲 + 公式记忆</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">无机化学 · 第 1–3 章</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">高数 · 极限专题</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">分析化学 · 查漏补缺</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">高数 · 最终冲刺 + 公式记忆</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">无机化学 · 全书串讲</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">21–22</span><span class="tx">英语 · 作文 + 词汇</span></div>
       </div>
     </div>
     <div class="day">
       <div class="day-nm">7/3 周五</div>
       <div class="day-c" data-d="7-3">
-        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">无机化学 · 第 4–6 章</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">高数 · 导数 + 微分方程</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">20–21:30</span><span class="tx">分析化学 · 真题练习</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">分析化学 · 公式快速过 + 易错题</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">高数 · 真题二遍 + 题型速记</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">无机化学 · 重点回顾</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">21–22</span><span class="tx">英语 · 完整模拟一套</span></div>
       </div>
     </div>
     <div class="day">
       <div class="day-nm">7/4 周六</div>
       <div class="day-c" data-d="7-4">
-        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">无机化学 · 第 7–9 章</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">高数 · 积分专题 + 错题</span></div>
-        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">英语听力 + 阅读一套</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">09–11</span><span class="tx">英语 · 模板背诵 + 最后准备</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">14–16</span><span class="tx">分析化学 · 重点公式再过</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">20–21</span><span class="tx">高数 · 公式 + 易错点</span></div>
+        <div class="tr"><input type="checkbox"><span class="tt">21–22</span><span class="tx">无机化学 · 最终过一遍</span></div>
       </div>
     </div>
   </div>
@@ -439,21 +452,36 @@ footer{text-align:center;padding:3rem 1rem;color:var(--text-secondary);font-size
 </footer>
 
 <script>
+// ── Exam dates ──
+const EXAM_DATES = [
+  {id:'cd-english', name:'英语',     d:new Date(2026,6,6)},
+  {id:'cd-marx',    name:'马原',     d:new Date(2026,6,7)},
+  {id:'cd-history', name:'近史纲',   d:new Date(2026,6,7)},
+  {id:'cd-chem',    name:'分析化学', d:new Date(2026,6,8)},
+  {id:'cd-math',    name:'高数',     d:new Date(2026,6,9)},
+  {id:'cd-inorg',   name:'无机化学', d:new Date(2026,6,10)},
+];
+
 // ── Countdown ──
 (function(){
   const n=new Date();
-  const exams=[
-    {id:'cd-english',d:new Date(2026,6,6)},
-    {id:'cd-marx',d:new Date(2026,6,7)},
-    {id:'cd-history',d:new Date(2026,6,7)},
-    {id:'cd-chem',d:new Date(2026,6,8)},
-    {id:'cd-math',d:new Date(2026,6,9)},
-    {id:'cd-inorg',d:new Date(2026,6,10)},
-  ];
-  for(const e of exams){
+  for(const e of EXAM_DATES){
     const diff=Math.max(0,Math.ceil((e.d-n)/864e5));
     document.getElementById(e.id).textContent=diff+'天';
   }
+  // hero dynamic days (to first exam)
+  const first=EXAM_DATES[0].d;
+  const toFirst=Math.max(0,Math.ceil((first-n)/864e5));
+  document.getElementById('hero-days').textContent=toFirst;
+  // stats: to first & to last
+  const last=EXAM_DATES[EXAM_DATES.length-1].d;
+  document.getElementById('st-to-first').textContent=toFirst;
+  document.getElementById('st-to-last').textContent=Math.max(0,Math.ceil((last-n)/864e5));
+  // current week: plan started 6/16 → week 1 = 6/16, week 2 = 6/23...
+  const planStart=new Date(2026,5,16); // June 16
+  const daysSince=Math.floor((n-planStart)/864e5);
+  const weekNum=Math.min(3,Math.max(1,Math.floor(daysSince/7)+1));
+  document.getElementById('st-week').textContent=weekNum<3?'第'+weekNum+'周':'考试周';
 })();
 
 // ── Scroll Reveal ──
